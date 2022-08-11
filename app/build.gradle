@@ -111,8 +111,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp'
 
     //Hilt - versions must always match
-    implementation "com.google.dagger:hilt-android:2.43"
-    kapt "com.google.dagger:hilt-android-compiler:2.43"
+    implementation "com.google.dagger:hilt-android:2.43.2"
+    kapt "com.google.dagger:hilt-android-compiler:2.43.2"
 
     //Kotlin Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'

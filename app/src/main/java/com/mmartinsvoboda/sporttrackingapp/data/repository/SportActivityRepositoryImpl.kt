@@ -16,8 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class SportActivityRepositoryImpl @Inject constructor(
-    val api: SportActivityApi,
-    val db: SportActivityDatabase
+    private val api: SportActivityApi,
+    private val db: SportActivityDatabase
 ) : SportActivityRepository, BaseDataSource() {
     override suspend fun getSportActivity(
         id: String,
@@ -44,15 +44,14 @@ class SportActivityRepositoryImpl @Inject constructor(
             }
         )
 
-    val user: String = ""
     override suspend fun getAllSportActivities(fetchFromRemote: Boolean): Flow<Resource<List<SportActivity>>> =
         performGetOperation(
             fetchFromLocal = {
-                db.sportActivityDao.getSportActivityListFlow(user)
+                db.sportActivityDao.getSportActivityListFlow("test")
             },
             fetchFromRemote = {
                 getResult("getAllSportActivities") {
-                    api.getActivities(user)
+                    api.getActivities("test")
                 }
             },
             processRemoteData = { response ->
