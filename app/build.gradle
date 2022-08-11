@@ -1,0 +1,169 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id "com.google.protobuf" version "0.8.12"
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
+
+var compose_version = "1.2.1"
+
+android {
+    namespace 'com.mmartinsvoboda.sporttrackingapp'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.mmartinsvoboda.sporttrackingapp"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0'
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    // androidx
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    // splashscreen
+    implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    // FOR ROOM
+    implementation 'androidx.room:room-runtime:2.4.3'
+    kapt 'androidx.room:room-compiler:2.4.3'
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation 'androidx.room:room-ktx:2.4.3'
+    // END FOR ROOM
+
+    // Network
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // define a BOM and its version
+    implementation(platform('com.squareup.okhttp3:okhttp-bom:5.0.0-alpha.9'))
+
+    // define any required OkHttp artifacts without version
+    implementation 'com.squareup.okhttp3:okhttp'
+
+    //Hilt - versions must always match
+    implementation "com.google.dagger:hilt-android:2.43"
+    kapt "com.google.dagger:hilt-android-compiler:2.43"
+
+    //Kotlin Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // Compose
+    implementation("androidx.compose.animation:animation-core:$compose_version")
+    implementation("androidx.compose.animation:animation:$compose_version")
+    implementation("androidx.compose.ui:ui:$compose_version")
+    implementation("androidx.compose.foundation:foundation:$compose_version")
+    implementation("androidx.compose.ui:ui-geometry:$compose_version")
+    implementation("androidx.compose.ui:ui-graphics:$compose_version")
+    implementation("androidx.compose.foundation:foundation-layout:$compose_version")
+    implementation("androidx.compose.material:material:$compose_version")
+    implementation("androidx.compose.material:material-icons-core:$compose_version")
+    implementation("androidx.compose.material:material-icons-extended:$compose_version")
+    implementation("androidx.compose.ui:ui-text:$compose_version")
+    implementation("androidx.compose.ui:ui-util:$compose_version")
+    implementation("androidx.compose.ui:ui-viewbinding:$compose_version")
+    implementation("androidx.compose.ui:ui-tooling:$compose_version")
+    implementation('androidx.activity:activity-compose:1.5.1')
+    implementation 'androidx.navigation:navigation-compose:2.5.1'
+
+    // Hilt Compose navigation
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    // swipe to refresh
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.25.0'
+
+    // datastore
+    implementation 'androidx.datastore:datastore:1.0.0'
+    implementation 'com.google.protobuf:protobuf-javalite:3.17.3'
+
+    // Google Maps
+    implementation 'com.google.maps.android:maps-compose:2.5.3'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.14.0"
+    }
+
+    // Generates the java Protobuf-lite code for the Protobuf in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
