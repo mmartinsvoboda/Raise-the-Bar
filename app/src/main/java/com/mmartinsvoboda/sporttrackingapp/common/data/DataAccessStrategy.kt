@@ -3,16 +3,16 @@ package com.mmartinsvoboda.sporttrackingapp.common.data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
-inline fun <DB, REMOTE> performGetOperation(
+inline fun <DB, REMOTE, FINAL> performGetOperation(
     crossinline fetchFromLocal: suspend () -> Flow<DB>,
     crossinline fetchFromRemote: suspend () -> Resource<REMOTE>,
-    noinline processRemoteData: suspend (REMOTE) -> REMOTE = { it },
-    crossinline syncRemoteData: suspend (local: DB, remote: REMOTE) -> Unit,
-    crossinline onFetchFailed: (throwable: Throwable?) -> Unit = { _: Throwable? -> }
-): Flow<Resource<DB>> = flow {
+    noinline processRemoteData: suspend (REMOTE) -> DB,
+    noinline processFinalData: suspend (DB) -> FINAL,
+    crossinline syncRemoteData: suspend (local: DB, remote: DB) -> Unit
+): Flow<Resource<FINAL>> = flow {
     val localData = fetchFromLocal.invoke().first()
 
-    emit(Resource.loading(localData))
+    emit(Resource.loading(processFinalData(localData)))
 
     fetchFromRemote.invoke().let { apiResponse ->
         when (apiResponse.status) {
@@ -23,17 +23,16 @@ inline fun <DB, REMOTE> performGetOperation(
                 }
                 emitAll(
                     fetchFromLocal().map { dbData ->
-                        Resource.success(dbData)
+                        Resource.success(processFinalData(dbData))
                     }
                 )
             }
             Resource.Status.ERROR -> {
-                onFetchFailed(apiResponse.throwable)
                 emitAll(
                     fetchFromLocal().map {
                         Resource.error(
                             apiResponse.throwable!!,
-                            it
+                            processFinalData(it)
                         )
                     }
                 )

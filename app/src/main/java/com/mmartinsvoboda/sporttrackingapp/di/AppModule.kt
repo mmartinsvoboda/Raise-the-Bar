@@ -1,6 +1,9 @@
 package com.mmartinsvoboda.sporttrackingapp.di
 
+import android.app.Application
+import androidx.room.Room
 import com.mmartinsvoboda.sporttrackingapp.common.Constants
+import com.mmartinsvoboda.sporttrackingapp.data.local.SportActivityDatabase
 import com.mmartinsvoboda.sporttrackingapp.data.remote.SportActivityApi
 import dagger.Module
 import dagger.Provides
@@ -17,10 +20,16 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSportActivityApi(): SportActivityApi {
-        return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        return Retrofit.Builder().baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create()).build()
             .create(SportActivityApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSportActivityDatabase(app: Application): SportActivityDatabase {
+        return Room.databaseBuilder(
+            app, SportActivityDatabase::class.java, "sportactivitydb.db"
+        ).build()
     }
 }
