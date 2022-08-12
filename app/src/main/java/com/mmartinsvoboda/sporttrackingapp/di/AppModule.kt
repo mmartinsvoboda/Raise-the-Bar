@@ -4,11 +4,13 @@ import android.app.Application
 import androidx.room.Room
 import com.mmartinsvoboda.sporttrackingapp.common.Constants
 import com.mmartinsvoboda.sporttrackingapp.data.local.SportActivityDatabase
+import com.mmartinsvoboda.sporttrackingapp.data.manager.UserManagerImpl
 import com.mmartinsvoboda.sporttrackingapp.data.proto.repositories.devel.ProtoSettingsRepo
 import com.mmartinsvoboda.sporttrackingapp.data.proto.repositories.devel.ProtoSettingsRepoImpl
 import com.mmartinsvoboda.sporttrackingapp.data.proto.repositories.user.ProtoUserRepo
 import com.mmartinsvoboda.sporttrackingapp.data.proto.repositories.user.ProtoUserRepoImpl
 import com.mmartinsvoboda.sporttrackingapp.data.remote.SportActivityApi
+import com.mmartinsvoboda.sporttrackingapp.domain.manager.UserManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +37,12 @@ object AppModule {
         return Room.databaseBuilder(
             app, SportActivityDatabase::class.java, "sportactivitydb.db"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserManager(protoUserRepo: ProtoUserRepo): UserManager {
+        return UserManagerImpl(protoUserRepo)
     }
 
     @Provides
