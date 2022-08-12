@@ -3,7 +3,6 @@ package com.mmartinsvoboda.sporttrackingapp.data.remote
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.DeleteActivityDto
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.PutActivityDto
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.get_activity_dto.GetActivityDto
-import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 

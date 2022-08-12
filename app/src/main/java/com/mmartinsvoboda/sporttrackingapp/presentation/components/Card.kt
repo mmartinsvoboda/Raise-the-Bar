@@ -3,7 +3,6 @@ package com.mmartinsvoboda.sporttrackingapp.presentation.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
