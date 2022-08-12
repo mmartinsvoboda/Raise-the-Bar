@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SportTrackingApp" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.SportTrackingApp" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
+    </style>
+
+    <style name="Theme.SportTrackingApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/activity</item>
+
+        // Set the theme of the Activity that directly follows your splash screen.
+        <item name="postSplashScreenTheme">@style/Theme.SportTrackingApp.NoActionBar</item>
+        # Required.
     </style>
 </resources>
