@@ -6,16 +6,20 @@ import kotlinx.coroutines.flow.Flow
 
 interface SportActivityRepository {
 
-    suspend fun getSportActivity(
-        id: String,
+    fun getSportActivity(
+        id: Int,
+        user: String,
         fetchFromRemote: Boolean
     ): Flow<Resource<SportActivity?>>
 
-    suspend fun getAllSportActivities(
+    fun getAllSportActivities(
+        user: String,
         fetchFromRemote: Boolean
     ): Flow<Resource<List<SportActivity>>>
 
-    suspend fun deleteSportActivity()
-    suspend fun addSportActivity()
+    suspend fun deleteSportActivityFromLocal(sportActivity: SportActivity)
+    suspend fun addSportActivityToLocal(sportActivity: SportActivity)
 
+    suspend fun deleteSportActivityFromRemote(id: Int, user: String)
+    suspend fun addSportActivityToRemote(user: String, sportActivity: SportActivity): Boolean
 }

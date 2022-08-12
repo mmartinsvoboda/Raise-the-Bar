@@ -23,7 +23,7 @@ interface SportActivityApi {
     @PUT("activity/{user}")
     suspend fun addActivity(
         @Path("user") user: String,
-        @Body requestBody: RequestBody
+        @Body requestBody: String
     ): Response<PutActivityDto>
 
     @DELETE("activity/{user}/{id}")

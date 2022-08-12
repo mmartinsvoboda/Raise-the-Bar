@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class SportActivityDao : BaseDao<SportActivityEntity>() {
     @Query("SELECT * FROM SportActivityEntity WHERE id = :id")
-    abstract fun getSportActivityFlow(id: String): Flow<SportActivityEntity?>
+    abstract fun getSportActivityFlow(id: Int): Flow<SportActivityEntity?>
 
     @Query("SELECT * FROM SportActivityEntity WHERE user = :user")
     abstract fun getSportActivityListFlow(user: String): Flow<List<SportActivityEntity>>

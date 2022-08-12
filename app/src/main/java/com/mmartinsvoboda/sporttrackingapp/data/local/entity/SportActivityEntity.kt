@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey
 @Entity
 data class SportActivityEntity(
     val end: String,
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val isBackedUp: Boolean,
     val name: String,
     val place: String,
+    val remoteId: String?,
     val start: String,
     val user: String
 )

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.*
 
 inline fun <DB, REMOTE, FINAL> performGetOperation(
     crossinline fetchFromLocal: suspend () -> Flow<DB>,
+    crossinline shouldFetchFromRemote: (DB) -> Boolean,
     crossinline fetchFromRemote: suspend () -> Resource<REMOTE>,
     noinline processRemoteData: suspend (REMOTE) -> DB,
     noinline processFinalData: suspend (DB) -> FINAL,
@@ -14,30 +15,35 @@ inline fun <DB, REMOTE, FINAL> performGetOperation(
 
     emit(Resource.loading(processFinalData(localData)))
 
-    fetchFromRemote.invoke().let { apiResponse ->
-        when (apiResponse.status) {
-            Resource.Status.SUCCESS -> {
-                apiResponse.data?.let {
-                    val processedData = processRemoteData(it)
-                    syncRemoteData(fetchFromLocal.invoke().first(), processedData)
+    if (shouldFetchFromRemote(localData)) {
+        fetchFromRemote.invoke().let { apiResponse ->
+            when (apiResponse.status) {
+                Resource.Status.SUCCESS -> {
+                    apiResponse.data?.let {
+                        val processedRemoteData = processRemoteData(it)
+                        val localDataForSync = fetchFromLocal.invoke().first()
+                        syncRemoteData(localDataForSync, processedRemoteData)
+                    }
+                    emitAll(
+                        fetchFromLocal().map { dbData ->
+                            Resource.success(processFinalData(dbData))
+                        }
+                    )
                 }
-                emitAll(
-                    fetchFromLocal().map { dbData ->
-                        Resource.success(processFinalData(dbData))
-                    }
-                )
+                Resource.Status.ERROR -> {
+                    emitAll(
+                        fetchFromLocal().map {
+                            Resource.error(
+                                apiResponse.throwable!!,
+                                processFinalData(it)
+                            )
+                        }
+                    )
+                }
+                Resource.Status.LOADING -> Unit
             }
-            Resource.Status.ERROR -> {
-                emitAll(
-                    fetchFromLocal().map {
-                        Resource.error(
-                            apiResponse.throwable!!,
-                            processFinalData(it)
-                        )
-                    }
-                )
-            }
-            Resource.Status.LOADING -> Unit
         }
+    } else {
+        emit(Resource.success(processFinalData(localData)))
     }
 }.flowOn(Dispatchers.IO).distinctUntilChanged()

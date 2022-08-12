@@ -19,10 +19,5 @@ class ActivityListOverviewViewModel @Inject constructor(
     val listOfActivities: StateFlow<List<SportActivity>?> = _listOfActivities
 
     init {
-        viewModelScope.launch {
-            sportActivityRepository.getAllSportActivities(false).collect {
-                _listOfActivities.value = it.data
-            }
-        }
     }
 }

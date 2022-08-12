@@ -11,7 +11,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ActivityDetailScreen(
-    id: String,
+    id: Int,
     navigator: DestinationsNavigator,
     model: ActivityDetailViewModel = hiltViewModel()
 ) {
