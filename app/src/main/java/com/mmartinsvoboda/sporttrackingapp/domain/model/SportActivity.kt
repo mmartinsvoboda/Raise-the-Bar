@@ -6,6 +6,5 @@ data class SportActivity(
     val isBackedUp: Boolean,
     val name: String,
     val place: String,
-    val start: String,
-    val user: String
+    val start: String
 )

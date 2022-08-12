@@ -16,7 +16,7 @@ fun Item.toSportActivityEntity(): SportActivityEntity {
     )
 }
 
-fun SportActivity.toSportActivityItem(): Item {
+fun SportActivity.toSportActivityItem(user: String): Item {
     return Item(
         end = end,
         name = name,
@@ -33,13 +33,12 @@ fun SportActivityEntity.toSportActivity(): SportActivity {
         name = name,
         place = place,
         start = start,
-        user = user,
         isBackedUp = isBackedUp,
         id = id
     )
 }
 
-fun SportActivity.toSportActivityEntity(): SportActivityEntity {
+fun SportActivity.toSportActivityEntity(user: String): SportActivityEntity {
     return SportActivityEntity(
         end = end,
         name = name,

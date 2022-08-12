@@ -95,9 +95,10 @@ class SportActivityRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addSportActivityToLocal(
+        user: String,
         sportActivity: SportActivity
     ) {
-        db.sportActivityDao.insert(sportActivity.toSportActivityEntity())
+        db.sportActivityDao.insert(sportActivity.toSportActivityEntity(user))
     }
 
     override suspend fun deleteSportActivityFromRemote(
@@ -125,7 +126,8 @@ class SportActivityRepositoryImpl @Inject constructor(
         val sportActivityEntity = db.sportActivityDao.getSportActivityFlow(sportActivity.id).first()
 
         if (sportActivityEntity != null && !sportActivityEntity.isBackedUp) {
-            val response = api.addActivity(user, sportActivity.toSportActivityItem().toGsonString())
+            val response =
+                api.addActivity(user, sportActivity.toSportActivityItem(user).toGsonString())
 
             if (response.isSuccessful && response.body() != null) {
                 val newLocalSportActivityEntity = sportActivityEntity.copy(
