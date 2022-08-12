@@ -3,8 +3,9 @@ package com.mmartinsvoboda.sporttrackingapp.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.mmartinsvoboda.sporttrackingapp.presentation.ui.theme.AppTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MaterialTheme {
+            AppTheme(darkMode = isSystemInDarkTheme()) {
                 DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
