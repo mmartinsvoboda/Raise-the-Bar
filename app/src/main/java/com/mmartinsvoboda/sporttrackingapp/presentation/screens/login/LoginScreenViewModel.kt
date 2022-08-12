@@ -1,4 +1,4 @@
-package com.mmartinsvoboda.sporttrackingapp.presentation.login
+package com.mmartinsvoboda.sporttrackingapp.presentation.screens.login
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.mmartinsvoboda.sporttrackingapp.presentation.activity_list_overview
+package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

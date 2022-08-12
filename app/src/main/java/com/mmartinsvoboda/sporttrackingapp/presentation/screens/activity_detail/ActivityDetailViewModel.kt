@@ -1,4 +1,4 @@
-package com.mmartinsvoboda.sporttrackingapp.presentation.activity_detail
+package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

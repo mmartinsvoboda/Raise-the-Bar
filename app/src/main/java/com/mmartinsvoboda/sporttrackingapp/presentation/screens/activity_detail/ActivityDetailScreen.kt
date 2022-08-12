@@ -1,4 +1,4 @@
-package com.mmartinsvoboda.sporttrackingapp.presentation.activity_detail
+package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text

@@ -1,4 +1,4 @@
-package com.mmartinsvoboda.sporttrackingapp.presentation.login
+package com.mmartinsvoboda.sporttrackingapp.presentation.screens.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
@@ -14,7 +14,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun LoginScreen(
-    navigator: DestinationsNavigator, model: LoginScreenViewModel = hiltViewModel()
+    navigator: DestinationsNavigator,
+    model: LoginScreenViewModel = hiltViewModel()
 ) {
     Column {
         Text(text = "Login")
