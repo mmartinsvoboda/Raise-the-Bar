@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
-import cz.is4uma.moje_studium.ui.theme.MojeStudiumTheme
+import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -52,7 +52,7 @@ fun ButtonText(
     maxLines: Int = Int.MAX_VALUE,
     inlineContent: Map<String, InlineTextContent> = mapOf(),
     onTextLayout: (TextLayoutResult) -> Unit = {},
-    style: TextStyle = MojeStudiumTheme.typography.body1
+    style: TextStyle = SportTrackingAppTheme.typography.body1
 ) {
     Text(
         AnnotatedString.Builder(text.uppercase()).toAnnotatedString(),
@@ -119,8 +119,8 @@ fun TopBarText(
 fun HtmlText(
     html: String,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = MojeStudiumTheme.typography.body1,
-    textColor: Color = MojeStudiumTheme.colors.onSurface
+    textStyle: TextStyle = SportTrackingAppTheme.typography.body1,
+    textColor: Color = SportTrackingAppTheme.colors.onSurface
 ) {
     val fontSize = textStyle.fontSize.value
     val textColorHashCode = textColor.hashCode()
