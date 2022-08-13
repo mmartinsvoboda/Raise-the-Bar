@@ -25,7 +25,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mmartinsvoboda.sporttrackingapp.R
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.ButtonText
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.SpacerDefault
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityListOverviewScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -36,8 +39,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun LoginScreen(
-    navigator: DestinationsNavigator,
-    model: LoginScreenViewModel = hiltViewModel()
+    navigator: DestinationsNavigator, model: LoginScreenViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
 
@@ -48,15 +50,11 @@ fun LoginScreen(
             val expanded = rememberSaveable { mutableStateOf(false) }
 
             Box(
-                Modifier
-                    .wrapContentSize(Alignment.TopEnd)
+                Modifier.wrapContentSize(Alignment.TopEnd)
             ) {
-                IconButton(
-                    onClick = { expanded.value = true }
-                ) {
+                IconButton(onClick = { expanded.value = true }) {
                     Icon(
-                        Icons.Default.MoreVert,
-                        contentDescription = null
+                        Icons.Default.MoreVert, contentDescription = null
                     )
                 }
 
@@ -65,11 +63,9 @@ fun LoginScreen(
                     onDismissRequest = { expanded.value = false },
                     modifier = Modifier.clip(RoundedCornerShape(12.dp))
                 ) {
-                    DropdownMenuItem(
-                        onClick = {
-                            expanded.value = false
-                        }
-                    ) {
+                    DropdownMenuItem(onClick = {
+                        expanded.value = false
+                    }) {
                         Text("Settings")
                     }
                 }
@@ -112,8 +108,7 @@ fun LoginScreen(
                             .fillMaxWidth()
                             .padding(SportTrackingAppTheme.paddings.defaultPadding)
                     ) {
-                        OutlinedTextField(
-                            value = state.user,
+                        OutlinedTextField(value = state.user,
                             onValueChange = {
                                 model.onEvent(LoginEvent.UpdateUser(it))
                             },
@@ -130,11 +125,9 @@ fun LoginScreen(
 
                         Button(
                             onClick = {
-                                model.onEvent(
-                                    LoginEvent.Login() {
-                                        navigator.navigate(ActivityListOverviewScreenDestination)
-                                    }
-                                )
+                                model.onEvent(LoginEvent.Login() {
+                                    navigator.navigate(ActivityListOverviewScreenDestination)
+                                })
                             },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
@@ -168,8 +161,7 @@ fun LoginScreen(
                 .background(
                     Color(0x59000000)
                 )
-                .clickable() { },
-            contentAlignment = Alignment.Center
+                .clickable() { }, contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }

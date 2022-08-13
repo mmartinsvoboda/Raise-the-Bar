@@ -3,6 +3,7 @@ package com.mmartinsvoboda.sporttrackingapp.data.remote
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.DeleteActivityDto
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.PutActivityDto
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.get_activity_dto.GetActivityDto
+import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.get_activity_dto.Item
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -22,7 +23,7 @@ interface SportActivityApi {
     @PUT("activity/{user}")
     suspend fun addActivity(
         @Path("user") user: String,
-        @Body requestBody: String
+        @Body body: Item
     ): Response<PutActivityDto>
 
     @DELETE("activity/{user}/{id}")
