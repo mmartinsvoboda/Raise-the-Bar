@@ -17,15 +17,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun IconAndTextRow(
-    text: String,
-    icon: ImageVector,
-    iconColor: Color? = null,
-    modifier: Modifier = Modifier
+    text: String, icon: ImageVector, iconColor: Color? = null, modifier: Modifier = Modifier
 ) {
     Column(modifier) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
         ) {
             Icon(
                 icon,

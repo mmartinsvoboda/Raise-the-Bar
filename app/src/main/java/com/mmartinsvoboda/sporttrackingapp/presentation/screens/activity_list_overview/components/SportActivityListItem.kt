@@ -30,7 +30,7 @@ fun SportActivityListItem(
         .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
         .clip(RoundedCornerShape(12.dp))
         .leftRectBorder(
-            width = SportTrackingAppTheme.paddings.defaultPadding,
+            width = SportTrackingAppTheme.paddings.smallPadding + SportTrackingAppTheme.paddings.tinyPadding,
             brush = SolidColor(SportTrackingAppTheme.colors.primary),
             enabled = sportActivity.isBackedUp
         )

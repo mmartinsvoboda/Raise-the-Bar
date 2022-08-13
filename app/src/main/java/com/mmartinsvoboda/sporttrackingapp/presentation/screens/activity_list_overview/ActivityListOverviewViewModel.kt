@@ -43,21 +43,21 @@ class ActivityListOverviewViewModel @Inject constructor(
             is ActivityListEvent.ActivityDelete -> {
                 viewModelScope.launch {
                     _state.value = state.value.copy(isActionInProgress = true)
-                    activityRemoveUseCase(event.sportActivity).also { Timber.d(it.toString()) }
+                    activityRemoveUseCase(event.sportActivity)
                     _state.value = state.value.copy(isActionInProgress = false)
                 }
             }
             is ActivityListEvent.ActivitySyncOff -> {
                 viewModelScope.launch {
                     _state.value = state.value.copy(isActionInProgress = true)
-                    activitySyncOffUseCase(event.sportActivity).also { Timber.d(it.toString()) }
+                    activitySyncOffUseCase(event.sportActivity)
                     _state.value = state.value.copy(isActionInProgress = false)
                 }
             }
             is ActivityListEvent.ActivitySyncOn -> {
                 viewModelScope.launch {
                     _state.value = state.value.copy(isActionInProgress = true)
-                    activitySyncOnUseCase(event.sportActivity).also { Timber.d(it.toString()) }
+                    activitySyncOnUseCase(event.sportActivity)
                     _state.value = state.value.copy(isActionInProgress = false)
 
                 }

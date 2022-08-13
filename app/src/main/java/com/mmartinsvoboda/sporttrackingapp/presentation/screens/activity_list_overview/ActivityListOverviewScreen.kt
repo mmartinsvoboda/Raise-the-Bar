@@ -80,7 +80,9 @@ fun ActivityListOverviewScreen(
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { }) {
+            FloatingActionButton(
+                onClick = { }, elevation = FloatingActionButtonDefaults.elevation(0.dp)
+            ) {
                 Icon(Icons.Outlined.Add, "Add")
             }
         }) {
