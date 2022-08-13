@@ -8,10 +8,10 @@ import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.attr.*
 
 private val LightColorPalette = lightColors(
-    primary = Color(0xFF547ebd),
-    primaryVariant = Color(0xFF71a6fc),
-    secondary = Color(0xFF547ebd),
-    secondaryVariant = Color(0xFF71a6fc),
+    primary = Color(0xFF473080),
+    primaryVariant = Color(0xFF382673),
+    secondary = Color(0xFF00c2a9),
+    secondaryVariant = Color(0xFF008F7C),
     background = BackgroundColorLight,
     surface = Color.White,
     error = ErrorColor,
@@ -23,10 +23,10 @@ private val LightColorPalette = lightColors(
 )
 
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFF71a6fc),
-    primaryVariant = Color(0xFF547ebd),
-    secondary = Color(0xFF71a6fc),
-    secondaryVariant = Color(0xFF547ebd),
+    primary = Color(0xFF473080),
+    primaryVariant = Color(0xFF382673),
+    secondary = Color(0xFF00c2a9),
+    secondaryVariant = Color(0xFF008F7C),
     background = BackgroundColorDark,
     surface = SurfaceColorDark,
     error = ErrorColor,
