@@ -1,8 +1,9 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,14 +19,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.mmartinsvoboda.sporttrackingapp.common.toGsonString
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportApp
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.CircularProgressIndicatorWithDarkBackground
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.SportActivityListItem
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityDetailScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.LoginScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -93,41 +94,16 @@ fun ActivityListOverviewScreen(
                 item {}
 
                 items(state.activities) {
-                    CardSportApp(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
-                        .clickable {
-                            if (it.isBackedUp) model.onEvent(
-                                ActivityListEvent.ActivitySyncOff(
-                                    it
-                                )
-                            )
-                            else model.onEvent(ActivityListEvent.ActivitySyncOn(it))
-                        }) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(SportTrackingAppTheme.paddings.defaultPadding)
-                        ) {
-                            Text(text = it.toGsonString(true))
-                        }
+                    SportActivityListItem(sportActivity = it, modifier = Modifier) {
+                        navigator.navigate(ActivityDetailScreenDestination(it.id))
                     }
                 }
+
+                item {}
             }
         }
     }
 
 
-    if (state.isActionInProgress) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Color(0x59000000)
-                )
-                .clickable() { }, contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    }
+    CircularProgressIndicatorWithDarkBackground(state.isActionInProgress)
 }

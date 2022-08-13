@@ -25,10 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mmartinsvoboda.sporttrackingapp.R
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.ButtonText
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.SpacerDefault
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityListOverviewScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -154,16 +151,5 @@ fun LoginScreen(
         }
     }
 
-    if (state.isLoginInProgress) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Color(0x59000000)
-                )
-                .clickable() { }, contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    }
+    CircularProgressIndicatorWithDarkBackground(state.isLoginInProgress)
 }
