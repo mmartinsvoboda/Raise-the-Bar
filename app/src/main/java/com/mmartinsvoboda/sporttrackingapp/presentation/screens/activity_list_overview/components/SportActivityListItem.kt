@@ -17,23 +17,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mmartinsvoboda.sporttrackingapp.domain.model.SportActivity
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
+import java.time.LocalDateTime
 
 @Composable
 fun SportActivityListItem(
     sportActivity: SportActivity, modifier: Modifier, onClick: () -> Unit
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .leftRectBorder(
-                width = SportTrackingAppTheme.paddings.smallPadding,
-                brush = SolidColor(SportTrackingAppTheme.colors.primary),
-                enabled = sportActivity.isBackedUp
-            )
-            .clickable {
-                onClick()
-            }
-    ) {
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .leftRectBorder(
+            width = SportTrackingAppTheme.paddings.smallPadding,
+            brush = SolidColor(SportTrackingAppTheme.colors.primary),
+            enabled = sportActivity.isBackedUp
+        )
+        .clickable {
+            onClick()
+        }) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -51,7 +50,7 @@ fun SportActivityListItem(
             SpacerSmall()
 
             IconAndTextRow(
-                text = "${sportActivity.start} - ${sportActivity.end}",
+                text = "${sportActivity.startDateTime} - ${sportActivity.endDateTime}",
                 icon = Icons.Outlined.Schedule
             )
 
@@ -69,12 +68,14 @@ private fun SportActivityListItemPreview() {
     Column {
         SportActivityListItem(
             sportActivity = SportActivity(
-                end = "12:00",
-                start = "11:00",
+                endDateTime = LocalDateTime.MAX,
+                startDateTime = LocalDateTime.MIN,
                 isBackedUp = true,
                 place = "Brno",
                 id = 1,
-                name = "Běh"
+                name = "Běh",
+                description = "Bomba",
+                enjoyment = 6
             ), modifier = Modifier
         ) {
 
@@ -84,12 +85,14 @@ private fun SportActivityListItemPreview() {
 
         SportActivityListItem(
             sportActivity = SportActivity(
-                end = "12:00",
-                start = "11:00",
+                endDateTime = LocalDateTime.MAX,
+                startDateTime = LocalDateTime.MIN,
                 isBackedUp = false,
                 place = "Krkonoše",
                 id = 2,
-                name = "Chůze do opravdu velkého kopce"
+                name = "Chůze do opravdu velkého kopce",
+                enjoyment = 5,
+                description = "Super"
             ), modifier = Modifier
         ) {
 

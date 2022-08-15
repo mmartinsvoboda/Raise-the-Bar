@@ -3,49 +3,60 @@ package com.mmartinsvoboda.sporttrackingapp.data
 import com.mmartinsvoboda.sporttrackingapp.data.local.entity.SportActivityEntity
 import com.mmartinsvoboda.sporttrackingapp.data.remote.dto.get_activity_dto.Item
 import com.mmartinsvoboda.sporttrackingapp.domain.model.SportActivity
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 fun Item.toSportActivityEntity(): SportActivityEntity {
     return SportActivityEntity(
-        end = end,
+        endDateTime = end,
         name = name,
         place = place,
-        start = start,
+        startDateTime = start,
         user = user,
         isBackedUp = true,
-        remoteId = id
+        remoteId = id,
+        description = description,
+        enjoyment = enjoyment
     )
 }
 
 fun SportActivity.toSportActivityItem(user: String): Item {
     return Item(
-        end = end,
+        end = endDateTime.toEpochSecond(ZoneOffset.UTC),
         name = name,
         place = place,
-        start = start,
+        start = startDateTime.toEpochSecond(ZoneOffset.UTC),
         user = user,
-        id = String()
+        id = String(),
+        enjoyment = enjoyment,
+        description = description
     )
 }
 
 fun SportActivityEntity.toSportActivity(): SportActivity {
     return SportActivity(
-        end = end,
+        endDateTime = LocalDateTime.ofEpochSecond(endDateTime, 0, ZoneOffset.UTC),
         name = name,
         place = place,
-        start = start,
+        startDateTime = LocalDateTime.ofEpochSecond(startDateTime, 0, ZoneOffset.UTC),
         isBackedUp = isBackedUp,
-        id = id
+        id = id,
+        description = description,
+        enjoyment = enjoyment
     )
 }
 
 fun SportActivity.toSportActivityEntity(user: String): SportActivityEntity {
     return SportActivityEntity(
-        end = end,
+        endDateTime = endDateTime.toEpochSecond(ZoneOffset.UTC),
         name = name,
         place = place,
-        start = start,
+        startDateTime = startDateTime.toEpochSecond(ZoneOffset.UTC),
         user = user,
         isBackedUp = true,
-        remoteId = null
+        remoteId = null,
+        description = description,
+        enjoyment = enjoyment,
+        id = id
     )
 }

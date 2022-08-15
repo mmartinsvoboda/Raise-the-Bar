@@ -81,7 +81,7 @@ fun ActivityDetailScreen(
                                     .padding(SportTrackingAppTheme.paddings.defaultPadding)
                             ) {
                                 IconAndTextRow(
-                                    text = "${sportActivity.start} - ${sportActivity.end}",
+                                    text = "${sportActivity.startDateTime} - ${sportActivity.endDateTime}",
                                     icon = Icons.Outlined.Schedule
                                 )
 
