@@ -1,11 +1,7 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -23,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.CircularProgressIndicatorWithDarkBackground
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.SportActivityListItem
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.WeeklyChallengeCard
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityDetailScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.LoginScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
@@ -95,9 +93,36 @@ fun ActivityListOverviewScreen(
             ) {
                 item {}
 
-                items(state.activities) {
-                    SportActivityListItem(sportActivity = it, modifier = Modifier) {
-                        navigator.navigate(ActivityDetailScreenDestination(it.id))
+                if (state.weeklyChallengeList.isNotEmpty()) {
+                    item {
+                        WeeklyChallengeCard(state.weeklyChallengeList)
+                    }
+                }
+
+                item {
+                    CardSportAppWithTitle(
+                        title = "Activities",
+                        modifier = Modifier.padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
+                    ) {
+                        Column {
+                            if (state.activities.isEmpty() && !state.isLoading) {
+                                // no data message
+                            } else {
+                                state.activities.forEachIndexed { index, sportActivity ->
+                                    SportActivityListItem(
+                                        sportActivity = sportActivity, modifier = Modifier
+                                    ) {
+                                        navigator.navigate(
+                                            ActivityDetailScreenDestination(
+                                                sportActivity.id
+                                            )
+                                        )
+                                    }
+
+                                    if (index != state.activities.lastIndex) Divider()
+                                }
+                            }
+                        }
                     }
                 }
 

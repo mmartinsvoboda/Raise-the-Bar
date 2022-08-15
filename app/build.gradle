@@ -151,6 +151,10 @@ dependencies {
     // swipe to refresh
     implementation 'com.google.accompanist:accompanist-swiperefresh:0.25.0'
 
+    // pager layouts
+    implementation 'com.google.accompanist:accompanist-pager:0.25.0'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.25.0'
+
     // datastore
     implementation 'androidx.datastore:datastore:1.0.0'
     implementation 'com.google.protobuf:protobuf-javalite:3.17.3'

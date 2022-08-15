@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +29,7 @@ class ActivityListOverviewViewModel @Inject constructor(
     val state: StateFlow<ActivityListState> = _state
 
     init {
-        onEvent(ActivityListEvent.LoadActivityList(false))
+        onEvent(ActivityListEvent.LoadActivityList(true))
     }
 
     fun onEvent(event: ActivityListEvent) {

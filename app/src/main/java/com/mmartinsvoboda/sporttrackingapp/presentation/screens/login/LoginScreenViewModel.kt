@@ -41,7 +41,8 @@ class LoginScreenViewModel @Inject constructor(
             _state.value = state.value.copy(isLoginInProgress = true)
             userLogInUseCase(state.value.user)
             delay(750)
-            validationEventChannel.send(ValidationEvent.Success)
+
+            viewModelScope.launch { validationEventChannel.send(ValidationEvent.Success) }
         }
 
         _state.value =

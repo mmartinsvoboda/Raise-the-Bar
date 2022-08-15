@@ -4,19 +4,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.mmartinsvoboda.sporttrackingapp.domain.model.SportActivity
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
@@ -25,18 +22,18 @@ import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 fun SportActivityListItem(
     sportActivity: SportActivity, modifier: Modifier, onClick: () -> Unit
 ) {
-    CardSportApp(modifier = modifier
-        .fillMaxWidth()
-        .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
-        .clip(RoundedCornerShape(12.dp))
-        .leftRectBorder(
-            width = SportTrackingAppTheme.paddings.smallPadding + SportTrackingAppTheme.paddings.tinyPadding,
-            brush = SolidColor(SportTrackingAppTheme.colors.primary),
-            enabled = sportActivity.isBackedUp
-        )
-        .clickable {
-            onClick()
-        }) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .leftRectBorder(
+                width = SportTrackingAppTheme.paddings.smallPadding,
+                brush = SolidColor(SportTrackingAppTheme.colors.primary),
+                enabled = sportActivity.isBackedUp
+            )
+            .clickable {
+                onClick()
+            }
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
