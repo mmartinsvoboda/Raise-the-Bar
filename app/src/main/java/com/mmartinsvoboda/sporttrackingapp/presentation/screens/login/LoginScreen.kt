@@ -1,23 +1,17 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.screens.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -39,6 +33,16 @@ fun LoginScreen(
     navigator: DestinationsNavigator, model: LoginScreenViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
+
+    LaunchedEffect(true) {
+        model.validationEvents.collect { event ->
+            when (event) {
+                is ValidationEvent.Success -> navigator.navigate(
+                    ActivityListOverviewScreenDestination
+                )
+            }
+        }
+    }
 
     ScaffoldSportApp(
         topBarTitle = stringResource(id = R.string.app_name),
@@ -105,7 +109,8 @@ fun LoginScreen(
                             .fillMaxWidth()
                             .padding(SportTrackingAppTheme.paddings.defaultPadding)
                     ) {
-                        OutlinedTextField(value = state.user,
+                        OutlinedTextField(
+                            value = state.user,
                             onValueChange = {
                                 model.onEvent(LoginEvent.UpdateUser(it))
                             },
@@ -118,13 +123,19 @@ fun LoginScreen(
                             enabled = !state.isLoginInProgress
                         )
 
+                        if (!state.userError.isNullOrBlank()) {
+                            SpacerTiny()
+                            
+                            Text(
+                                text = state.userError!!, color = SportTrackingAppTheme.colors.error
+                            )
+                        }
+
                         SpacerDefault()
 
                         Button(
                             onClick = {
-                                model.onEvent(LoginEvent.Login() {
-                                    navigator.navigate(ActivityListOverviewScreenDestination)
-                                })
+                                model.onEvent(LoginEvent.Login)
                             },
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(12.dp),
