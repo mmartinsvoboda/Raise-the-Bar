@@ -1,5 +1,6 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -22,9 +24,11 @@ import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.CircularProgressIndicatorWithDarkBackground
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.SpacerDefault
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.SportActivityListItem
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.WeeklyChallengeCard
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityDetailScreenDestination
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityNewScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.LoginScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -37,7 +41,7 @@ fun ActivityListOverviewScreen(
 ) {
     val state by model.state.collectAsState()
 
-    ScaffoldSportApp(topBarTitle = "Overview",
+    ScaffoldSportApp(topBarTitle = if (state.user != null) "Hello, ${state.user}" else "Hello",
         topBarDisplayNavigationIcon = false,
         navigator = navigator,
         topBarActions = {
@@ -79,7 +83,8 @@ fun ActivityListOverviewScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { }, elevation = FloatingActionButtonDefaults.elevation(0.dp)
+                onClick = { navigator.navigate(ActivityNewScreenDestination) },
+                elevation = FloatingActionButtonDefaults.elevation(0.dp)
             ) {
                 Icon(Icons.Outlined.Add, "Add")
             }
@@ -91,8 +96,6 @@ fun ActivityListOverviewScreen(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(SportTrackingAppTheme.paddings.defaultPadding)
             ) {
-                item {}
-
                 if (state.weeklyChallengeList.isNotEmpty()) {
                     item {
                         WeeklyChallengeCard(state.weeklyChallengeList)
@@ -105,8 +108,49 @@ fun ActivityListOverviewScreen(
                         modifier = Modifier.padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
                     ) {
                         Column {
-                            if (state.activities.isEmpty() && !state.isLoading) {
+                            if (state.activities.isEmpty()) {
                                 // no data message
+                                Column(
+                                    modifier = Modifier.padding(SportTrackingAppTheme.paddings.defaultPadding)
+                                ) {
+                                    Text(text = "No sport activities have been found :(\nGet out there and work out!")
+
+                                    SpacerDefault()
+
+                                    Image(
+                                        painter = painterResource(id = state.noDataImage),
+                                        contentDescription = "Sport activity",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .heightIn(max = 150.dp)
+                                    )
+
+                                    SpacerDefault()
+
+                                    Button(
+                                        onClick = {
+                                            navigator.navigate(ActivityNewScreenDestination)
+                                        },
+                                        shape = RoundedCornerShape(12.dp),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(text = "Add new activity".uppercase())
+                                    }
+
+                                    OutlinedButton(
+                                        onClick = {
+                                            model.onEvent(
+                                                ActivityListEvent.LoadActivityList(
+                                                    true
+                                                )
+                                            )
+                                        },
+                                        shape = RoundedCornerShape(12.dp),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(text = "Try again".uppercase())
+                                    }
+                                }
                             } else {
                                 state.activities.forEachIndexed { index, sportActivity ->
                                     SportActivityListItem(

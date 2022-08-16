@@ -1,4 +1,4 @@
-package com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_add
+package com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_new
 
 import com.mmartinsvoboda.sporttrackingapp.domain.manager.UserManager
 import com.mmartinsvoboda.sporttrackingapp.domain.model.SportActivity
@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 
-class ActivityAddUseCase @Inject constructor(
+class ActivityNewUseCase @Inject constructor(
     private val sportActivityRepository: SportActivityRepository,
     private val userManager: UserManager
 ) {

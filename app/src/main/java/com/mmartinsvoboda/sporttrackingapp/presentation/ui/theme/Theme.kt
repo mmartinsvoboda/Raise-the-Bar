@@ -10,13 +10,13 @@ import com.mmartinsvoboda.sporttrackingapp.presentation.ui.attr.*
 private val LightColorPalette = lightColors(
     primary = Color(0xFF473080),
     primaryVariant = Color(0xFF382673),
-    secondary = Color(0xFF00c2a9),
-    secondaryVariant = Color(0xFF008F7C),
+    secondary = Color(0xFFFF8160),
+    secondaryVariant = Color(0xFFFC957A),
     background = BackgroundColorLight,
     surface = Color.White,
     error = ErrorColor,
     onPrimary = Color.White,
-    onSecondary = Color.White,
+    onSecondary = Color.Black,
     onBackground = Color.Black,
     onSurface = Color.Black,
     onError = Color.White
@@ -25,13 +25,13 @@ private val LightColorPalette = lightColors(
 private val DarkColorPalette = darkColors(
     primary = Color(0xFF473080),
     primaryVariant = Color(0xFF382673),
-    secondary = Color(0xFF00c2a9),
-    secondaryVariant = Color(0xFF008F7C),
+    secondary = Color(0xFFFF8160),
+    secondaryVariant = Color(0xFFFC957A),
     background = BackgroundColorDark,
     surface = SurfaceColorDark,
     error = ErrorColor,
     onPrimary = Color.White,
-    onSecondary = Color.White,
+    onSecondary = Color.Black,
     onBackground = WhiteDarkMode,
     onSurface = WhiteDarkMode,
     onError = WhiteDarkMode
@@ -39,8 +39,7 @@ private val DarkColorPalette = darkColors(
 
 @Composable
 fun AppTheme(
-    darkMode: Boolean,
-    content: @Composable () -> Unit
+    darkMode: Boolean, content: @Composable () -> Unit
 ) {
     SportTrackingAppTheme(
         lightColorPalette = LightColorPalette,

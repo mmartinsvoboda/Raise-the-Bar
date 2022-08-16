@@ -3,6 +3,7 @@ package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_o
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mmartinsvoboda.sporttrackingapp.common.data.Resource
+import com.mmartinsvoboda.sporttrackingapp.domain.manager.UserManager
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_remove.ActivityRemoveUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_off.ActivitySyncOffUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_on.ActivitySyncOnUseCase
@@ -22,13 +23,18 @@ class ActivityListOverviewViewModel @Inject constructor(
     private val activityRemoveUseCase: ActivityRemoveUseCase,
     private val activitySyncOnUseCase: ActivitySyncOnUseCase,
     private val activitySyncOffUseCase: ActivitySyncOffUseCase,
-    private val userLogOutUseCase: UserLogOutUseCase
+    private val userLogOutUseCase: UserLogOutUseCase,
+    private val userManager: UserManager
 ) : ViewModel() {
 
     private var _state = MutableStateFlow(ActivityListState())
     val state: StateFlow<ActivityListState> = _state
 
     init {
+        viewModelScope.launch {
+            _state.value = state.value.copy(user = userManager.getUserName())
+        }
+        
         onEvent(ActivityListEvent.LoadActivityList(true))
     }
 
