@@ -35,7 +35,7 @@ class ActivityListOverviewViewModel @Inject constructor(
             _state.value = state.value.copy(user = userManager.getUserName())
         }
 
-        onEvent(ActivityListEvent.LoadActivityList(true))
+        onEvent(ActivityListEvent.LoadActivityList(false))
     }
 
     fun onEvent(event: ActivityListEvent) {

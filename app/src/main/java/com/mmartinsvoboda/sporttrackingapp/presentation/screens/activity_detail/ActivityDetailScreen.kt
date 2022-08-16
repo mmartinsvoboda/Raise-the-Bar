@@ -108,13 +108,14 @@ fun ActivityDetailScreen(
                         CardSportAppWithTitle(
                             title = "Location",
                             modifier = Modifier
-                                .aspectRatio(1.6f)
-                                .fillMaxWidth()
                                 .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
                         ) {
                             Map(
                                 address = sportActivity.place,
-                                title = sportActivity.place
+                                title = sportActivity.place,
+                                modifier = Modifier
+                                    .aspectRatio(1.6f)
+                                    .fillMaxWidth()
                             ) {
                                 Text(
                                     text = "Map could not be loaded.",

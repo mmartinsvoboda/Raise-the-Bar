@@ -16,6 +16,7 @@ import com.mmartinsvoboda.sporttrackingapp.presentation.components.lightModeAndD
 fun Map(
     address: String,
     title: String,
+    modifier: Modifier = Modifier,
     onProblem: @Composable () -> Unit
 ) {
     val context = LocalContext.current
@@ -30,7 +31,8 @@ fun Map(
         address = addressState.value,
         title = title,
         cameraPositionState = cameraPositionState,
-        onProblem = onProblem
+        onProblem = onProblem,
+        modifier = modifier
     )
 }
 
@@ -39,6 +41,7 @@ private fun MapViewContainer(
     address: Address?,
     title: String,
     cameraPositionState: CameraPositionState,
+    modifier: Modifier = Modifier,
     onProblem: @Composable () -> Unit
 ) {
     if (address != null) {
@@ -52,7 +55,7 @@ private fun MapViewContainer(
             )
 
         GoogleMap(
-            modifier = Modifier,
+            modifier = modifier,
             cameraPositionState = cameraPositionState,
             properties = getMapProperties(),
             uiSettings = getUiSettings()
