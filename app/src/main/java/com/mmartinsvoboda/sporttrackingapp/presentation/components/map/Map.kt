@@ -1,8 +1,7 @@
-package com.mmartinsvoboda.sporttrackingapp.presentation.components
+package com.mmartinsvoboda.sporttrackingapp.presentation.components.map
 
 import android.location.Address
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -11,30 +10,46 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.*
 import com.mmartinsvoboda.sporttrackingapp.R
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.map.MapHelper
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.lightModeAndDarkModeValues
 
 @Composable
 fun Map(
-    address: String, title: String
+    address: String,
+    title: String,
+    onProblem: @Composable () -> Unit
 ) {
     val context = LocalContext.current
 
-    val addressState = MapHelper.getAddressObjectFlow(address, context).collectAsState(null)
+    val addressState = MapHelper.getAddressObjectFlow(
+        address,
+        context
+    ).collectAsState(null)
     val cameraPositionState = rememberCameraPositionState()
 
     MapViewContainer(
-        addressState = addressState, title = title, cameraPositionState = cameraPositionState
+        address = addressState.value,
+        title = title,
+        cameraPositionState = cameraPositionState,
+        onProblem = onProblem
     )
 }
 
 @Composable
 private fun MapViewContainer(
-    addressState: State<Address?>, title: String, cameraPositionState: CameraPositionState
+    address: Address?,
+    title: String,
+    cameraPositionState: CameraPositionState,
+    onProblem: @Composable () -> Unit
 ) {
-    val address = addressState.value
     if (address != null) {
         cameraPositionState.position =
-            CameraPosition.fromLatLngZoom(LatLng(address.latitude, address.longitude), 13f)
+            CameraPosition.fromLatLngZoom(
+                LatLng(
+                    address.latitude,
+                    address.longitude
+                ),
+                13f
+            )
 
         GoogleMap(
             modifier = Modifier,
@@ -42,13 +57,22 @@ private fun MapViewContainer(
             properties = getMapProperties(),
             uiSettings = getUiSettings()
         ) {
-            val destination = LatLng(address.latitude, address.longitude)
-            val markerState = rememberMarkerState(key = title, position = destination)
+            val destination = LatLng(
+                address.latitude,
+                address.longitude
+            )
+            val markerState = rememberMarkerState(
+                key = title,
+                position = destination
+            )
 
             Marker(
-                title = title, state = markerState
+                title = title,
+                state = markerState
             )
         }
+    } else {
+        onProblem()
     }
 }
 
@@ -57,7 +81,8 @@ fun getMapProperties(): MapProperties {
     val context = LocalContext.current
 
     val lightAndDarkModeStyles = lightModeAndDarkModeValues(
-        lightMode = R.raw.light_map_style, darkMode = R.raw.dark_map_style
+        lightMode = R.raw.light_map_style,
+        darkMode = R.raw.dark_map_style
     )
 
     return MapProperties(
@@ -67,7 +92,8 @@ fun getMapProperties(): MapProperties {
         isTrafficEnabled = false,
         mapType = MapType.NORMAL,
         mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
-            context, lightAndDarkModeStyles
+            context,
+            lightAndDarkModeStyles
         )
     )
 }

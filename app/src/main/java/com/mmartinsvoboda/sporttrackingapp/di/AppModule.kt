@@ -35,7 +35,9 @@ object AppModule {
     @Singleton
     fun provideSportActivityDatabase(app: Application): SportActivityDatabase {
         return Room.databaseBuilder(
-            app, SportActivityDatabase::class.java, "sportactivitydb.db"
+            app,
+            SportActivityDatabase::class.java,
+            "sportactivitydb.db"
         ).build()
     }
 

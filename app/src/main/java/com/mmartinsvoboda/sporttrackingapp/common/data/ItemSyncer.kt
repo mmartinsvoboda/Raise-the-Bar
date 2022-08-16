@@ -38,7 +38,12 @@ class ItemSyncer<DB, Key>(
                 if (dbEntityForId != networkEntity) {
                     // This is currently in the DB, so lets merge it with the saved version
                     // and update it
-                    updateEntity(syncValues(dbEntityForId, networkEntity))
+                    updateEntity(
+                        syncValues(
+                            dbEntityForId,
+                            networkEntity
+                        )
+                    )
 //                    Timber.v("Updated entry with remote id: %s", remoteId)
                 }
                 // Remove it from the list so that it is not deleted
@@ -67,7 +72,11 @@ class ItemSyncer<DB, Key>(
 
         Timber.v("${baseDao::class.simpleName} - total items: ${network.size}\nAdded: ${added.size}\nUpdated: ${updated.size}\nDeleted: ${removed.size}")
 
-        return ItemSyncerResult(added, removed, updated)
+        return ItemSyncerResult(
+            added,
+            removed,
+            updated
+        )
     }
 
     suspend fun sync(
@@ -84,7 +93,12 @@ class ItemSyncer<DB, Key>(
 
         if (network != null) {
             if (current != null && network != current) {
-                updateEntity(syncValues(current, network))
+                updateEntity(
+                    syncValues(
+                        current,
+                        network
+                    )
+                )
                 updated.add(network)
 //                Timber.v("Updated entry with remote id: %s", remoteId)
             } else {
@@ -100,7 +114,11 @@ class ItemSyncer<DB, Key>(
 
         Timber.v("${baseDao::class.simpleName} - total items: 1\nAdded: ${added.size}\nUpdated: ${updated.size}\nDeleted: ${removed.size}")
 
-        return ItemSyncerResult(added, removed, updated)
+        return ItemSyncerResult(
+            added,
+            removed,
+            updated
+        )
     }
 }
 

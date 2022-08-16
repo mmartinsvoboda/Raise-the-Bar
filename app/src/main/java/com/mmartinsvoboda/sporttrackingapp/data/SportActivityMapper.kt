@@ -35,10 +35,18 @@ fun SportActivity.toSportActivityItem(user: String): Item {
 
 fun SportActivityEntity.toSportActivity(): SportActivity {
     return SportActivity(
-        endDateTime = LocalDateTime.ofEpochSecond(endDateTime, 0, ZoneOffset.UTC),
+        endDateTime = LocalDateTime.ofEpochSecond(
+            endDateTime,
+            0,
+            ZoneOffset.UTC
+        ),
         name = name,
         place = place,
-        startDateTime = LocalDateTime.ofEpochSecond(startDateTime, 0, ZoneOffset.UTC),
+        startDateTime = LocalDateTime.ofEpochSecond(
+            startDateTime,
+            0,
+            ZoneOffset.UTC
+        ),
         isBackedUp = isBackedUp,
         id = id,
         description = description,

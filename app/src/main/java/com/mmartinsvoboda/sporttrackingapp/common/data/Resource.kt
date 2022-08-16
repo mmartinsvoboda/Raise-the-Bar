@@ -21,7 +21,10 @@ data class Resource<out T>(
             )
         }
 
-        fun <T> error(throwable: Throwable, data: T? = null): Resource<T> {
+        fun <T> error(
+            throwable: Throwable,
+            data: T? = null
+        ): Resource<T> {
             return Resource(
                 Status.ERROR,
                 data,

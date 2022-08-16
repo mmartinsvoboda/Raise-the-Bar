@@ -1,7 +1,6 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
@@ -25,7 +24,7 @@ fun CircularProgressIndicatorWithDarkBackground(
                         darkMode = Color(0x59000000)
                     )
                 )
-                .clickable { },
+                .noRippleClickable { },
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()

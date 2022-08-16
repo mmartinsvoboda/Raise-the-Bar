@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.map.Map
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -27,16 +28,22 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ActivityDetailScreen(
-    id: Int, navigator: DestinationsNavigator, model: ActivityDetailViewModel = hiltViewModel()
+    id: Int,
+    navigator: DestinationsNavigator,
+    model: ActivityDetailViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
 
     ScaffoldSportApp(
-        topBarTitle = "Activity", topBarDisplayNavigationIcon = true, navigator = navigator
+        topBarTitle = "Activity",
+        topBarDisplayNavigationIcon = true,
+        navigator = navigator
     ) {
-        SwipeRefresh(state = SwipeRefreshState(state.isLoading), onRefresh = {
-            model.onEvent(ActivityEvent.LoadActivity(true))
-        }) {
+        SwipeRefresh(
+            state = SwipeRefreshState(state.isLoading),
+            onRefresh = {
+                model.onEvent(ActivityEvent.LoadActivity(true))
+            }) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(SportTrackingAppTheme.paddings.defaultPadding)
@@ -88,7 +95,8 @@ fun ActivityDetailScreen(
                                 SpacerTiny()
 
                                 IconAndTextRow(
-                                    text = sportActivity.place, icon = Icons.Outlined.Place
+                                    text = sportActivity.place,
+                                    icon = Icons.Outlined.Place
                                 )
                             }
                         }
@@ -104,7 +112,15 @@ fun ActivityDetailScreen(
                                 .fillMaxWidth()
                                 .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
                         ) {
-                            Map(address = sportActivity.place, title = sportActivity.place)
+                            Map(
+                                address = sportActivity.place,
+                                title = sportActivity.place
+                            ) {
+                                Text(
+                                    text = "Map could not be loaded.",
+                                    modifier = Modifier.padding(SportTrackingAppTheme.paddings.defaultPadding)
+                                )
+                            }
                         }
                     }
                 }
@@ -131,7 +147,7 @@ fun ActivityDetailScreen(
                                 shape = RoundedCornerShape(12.dp),
                                 enabled = !state.isActionInProgress
                             ) {
-                                Text(text = if (sportActivity.isBackedUp) "Remove from cloud" else "Save to cloud")
+                                ButtonText(text = if (sportActivity.isBackedUp) "Remove from cloud" else "Save to cloud")
                             }
 
                             OutlinedButton(
@@ -146,7 +162,7 @@ fun ActivityDetailScreen(
                                 shape = RoundedCornerShape(12.dp),
                                 enabled = !state.isActionInProgress
                             ) {
-                                Text(text = "Delete activity")
+                                ButtonText(text = "Delete activity")
                             }
                         }
                     }

@@ -18,11 +18,17 @@ object UserStoreSerializer : Serializer<UserStore> {
         try {
             return UserStore.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", exception)
+            throw CorruptionException(
+                "Cannot read proto.",
+                exception
+            )
         }
     }
 
-    override suspend fun writeTo(t: UserStore, output: OutputStream) {
+    override suspend fun writeTo(
+        t: UserStore,
+        output: OutputStream
+    ) {
         t.writeTo(output)
     }
 }

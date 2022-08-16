@@ -68,7 +68,10 @@ class ActivityDetailViewModel @Inject constructor(
 
     private suspend fun getActivity(fetchFromRemote: Boolean) {
         savedStateHandle.get<Int>("id")?.let { id ->
-            getActivityUseCase(id, fetchFromRemote)?.onEach { result ->
+            getActivityUseCase(
+                id,
+                fetchFromRemote
+            )?.onEach { result ->
                 when (result.status) {
                     Resource.Status.SUCCESS -> {
                         _state.value = state.value.copy(

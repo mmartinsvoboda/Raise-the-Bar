@@ -19,11 +19,17 @@ object SettingsStoreSerializer : Serializer<SettingsStore> {
         try {
             return SettingsStore.parseFrom(input)
         } catch (exception: InvalidProtocolBufferException) {
-            throw CorruptionException("Cannot read proto.", exception)
+            throw CorruptionException(
+                "Cannot read proto.",
+                exception
+            )
         }
     }
 
-    override suspend fun writeTo(t: SettingsStore, output: OutputStream) {
+    override suspend fun writeTo(
+        t: SettingsStore,
+        output: OutputStream
+    ) {
         t.writeTo(output)
     }
 }

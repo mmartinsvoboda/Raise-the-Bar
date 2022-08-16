@@ -34,7 +34,7 @@ class ActivityListOverviewViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = state.value.copy(user = userManager.getUserName())
         }
-        
+
         onEvent(ActivityListEvent.LoadActivityList(true))
     }
 
@@ -80,7 +80,8 @@ class ActivityListOverviewViewModel @Inject constructor(
             when (result.status) {
                 Resource.Status.SUCCESS -> {
                     _state.value = state.value.copy(
-                        isLoading = false, activities = result.data ?: emptyList()
+                        isLoading = false,
+                        activities = result.data ?: emptyList()
                     )
                 }
                 Resource.Status.ERROR -> {

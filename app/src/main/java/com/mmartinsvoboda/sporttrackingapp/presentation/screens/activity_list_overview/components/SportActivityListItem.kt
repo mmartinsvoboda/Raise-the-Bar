@@ -21,7 +21,9 @@ import java.time.LocalDateTime
 
 @Composable
 fun SportActivityListItem(
-    sportActivity: SportActivity, modifier: Modifier, onClick: () -> Unit
+    sportActivity: SportActivity,
+    modifier: Modifier,
+    onClick: () -> Unit
 ) {
     Column(modifier = modifier
         .fillMaxWidth()
@@ -56,7 +58,10 @@ fun SportActivityListItem(
 
             SpacerTiny()
 
-            IconAndTextRow(text = sportActivity.place, icon = Icons.Outlined.Place)
+            IconAndTextRow(
+                text = sportActivity.place,
+                icon = Icons.Outlined.Place
+            )
         }
     }
 }
@@ -76,7 +81,8 @@ private fun SportActivityListItemPreview() {
                 name = "Běh",
                 description = "Bomba",
                 enjoyment = 6
-            ), modifier = Modifier
+            ),
+            modifier = Modifier
         ) {
 
         }
@@ -93,7 +99,8 @@ private fun SportActivityListItemPreview() {
                 name = "Chůze do opravdu velkého kopce",
                 enjoyment = 5,
                 description = "Super"
-            ), modifier = Modifier
+            ),
+            modifier = Modifier
         ) {
 
         }

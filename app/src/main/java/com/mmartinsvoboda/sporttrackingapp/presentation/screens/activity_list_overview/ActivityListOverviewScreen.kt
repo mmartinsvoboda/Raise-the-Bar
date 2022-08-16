@@ -21,10 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.CircularProgressIndicatorWithDarkBackground
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.SpacerDefault
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.SportActivityListItem
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.WeeklyChallengeCard
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityDetailScreenDestination
@@ -37,11 +34,13 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ActivityListOverviewScreen(
-    navigator: DestinationsNavigator, model: ActivityListOverviewViewModel = hiltViewModel()
+    navigator: DestinationsNavigator,
+    model: ActivityListOverviewViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
 
-    ScaffoldSportApp(topBarTitle = if (state.user != null) "Hello, ${state.user}" else "Hello",
+    ScaffoldSportApp(
+        topBarTitle = if (state.user != null) "Hello, ${state.user}" else "Hello",
         topBarDisplayNavigationIcon = false,
         navigator = navigator,
         topBarActions = {
@@ -52,7 +51,8 @@ fun ActivityListOverviewScreen(
             ) {
                 IconButton(onClick = { expanded.value = true }) {
                     Icon(
-                        Icons.Default.MoreVert, contentDescription = null
+                        Icons.Default.MoreVert,
+                        contentDescription = null
                     )
                 }
 
@@ -86,12 +86,16 @@ fun ActivityListOverviewScreen(
                 onClick = { navigator.navigate(ActivityNewScreenDestination) },
                 elevation = FloatingActionButtonDefaults.elevation(0.dp)
             ) {
-                Icon(Icons.Outlined.Add, "Add")
+                Icon(
+                    Icons.Outlined.Add,
+                    "Add"
+                )
             }
         }) {
-        SwipeRefresh(state = SwipeRefreshState(state.isLoading), onRefresh = {
-            model.onEvent(ActivityListEvent.LoadActivityList(true))
-        }) {
+        SwipeRefresh(state = SwipeRefreshState(state.isLoading),
+            onRefresh = {
+                model.onEvent(ActivityListEvent.LoadActivityList(true))
+            }) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(SportTrackingAppTheme.paddings.defaultPadding)
@@ -134,7 +138,7 @@ fun ActivityListOverviewScreen(
                                         shape = RoundedCornerShape(12.dp),
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text(text = "Add new activity".uppercase())
+                                        ButtonText(text = "Add new activity")
                                     }
 
                                     OutlinedButton(
@@ -148,13 +152,14 @@ fun ActivityListOverviewScreen(
                                         shape = RoundedCornerShape(12.dp),
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text(text = "Try again".uppercase())
+                                        ButtonText(text = "Try again")
                                     }
                                 }
                             } else {
                                 state.activities.forEachIndexed { index, sportActivity ->
                                     SportActivityListItem(
-                                        sportActivity = sportActivity, modifier = Modifier
+                                        sportActivity = sportActivity,
+                                        modifier = Modifier
                                     ) {
                                         navigator.navigate(
                                             ActivityDetailScreenDestination(

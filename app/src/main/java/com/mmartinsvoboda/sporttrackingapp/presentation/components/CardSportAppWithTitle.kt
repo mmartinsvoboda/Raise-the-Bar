@@ -22,7 +22,8 @@ fun CardSportAppWithTitle(
     subtitle: String = "",
     navigationIcon: @Composable () -> Unit = {
         Icon(
-            imageVector = Icons.Default.ArrowForward, contentDescription = null
+            imageVector = Icons.Default.ArrowForward,
+            contentDescription = null
         )
     },
     navigationAction: (() -> Unit)? = null,
@@ -47,7 +48,12 @@ fun CardSportAppWithTitle(
 
         SpacerTiny()
 
-        CardContent(backgroundColor, contentColor, border, content)
+        CardContent(
+            backgroundColor,
+            contentColor,
+            border,
+            content
+        )
     }
 }
 
@@ -59,10 +65,13 @@ fun CardContent(
     content: @Composable () -> Unit
 ) {
     CardSportApp(
-        backgroundColor = backgroundColor, contentColor = contentColor, border = border
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        border = border
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.TopStart
         ) {
             content()
         }

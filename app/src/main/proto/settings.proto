@@ -4,7 +4,7 @@ option java_package = "com.sample.android_sample_preference_datastore";
 option java_multiple_files = true;
 
 message SettingsStore {
-  bool user_set_dark_mode_preference = 1;
-  bool dark_mode_preference = 2;
-  string preferred_locale = 3;
+    bool user_set_dark_mode_preference = 1;
+    bool dark_mode_preference = 2;
+    string preferred_locale = 3;
 }

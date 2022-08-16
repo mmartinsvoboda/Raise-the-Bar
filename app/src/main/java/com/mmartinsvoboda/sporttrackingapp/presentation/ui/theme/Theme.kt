@@ -39,7 +39,8 @@ private val DarkColorPalette = darkColors(
 
 @Composable
 fun AppTheme(
-    darkMode: Boolean, content: @Composable () -> Unit
+    darkMode: Boolean,
+    content: @Composable () -> Unit
 ) {
     SportTrackingAppTheme(
         lightColorPalette = LightColorPalette,

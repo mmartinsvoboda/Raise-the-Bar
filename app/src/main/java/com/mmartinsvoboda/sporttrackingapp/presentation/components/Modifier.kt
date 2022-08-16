@@ -1,6 +1,9 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
@@ -27,8 +30,14 @@ fun Modifier.leftRectBorder(
                         drawLine(
                             brush = brush,
                             strokeWidth = width.toPx(),
-                            start = Offset(0f, 0f),
-                            end = Offset(0f, size.height)
+                            start = Offset(
+                                0f,
+                                0f
+                            ),
+                            end = Offset(
+                                0f,
+                                size.height
+                            )
                         )
                     }
                 }
@@ -47,3 +56,11 @@ fun Modifier.leftRectBorder(
         properties["shape"] = RectangleShape
     }
 )
+
+fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier =
+    composed {
+        clickable(indication = null,
+            interactionSource = remember { MutableInteractionSource() }) {
+            onClick()
+        }
+    }

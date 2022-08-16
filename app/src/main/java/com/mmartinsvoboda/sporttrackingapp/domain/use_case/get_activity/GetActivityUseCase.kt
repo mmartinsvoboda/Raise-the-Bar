@@ -18,7 +18,11 @@ class GetActivityUseCase @Inject constructor(
         fetchFromRemote: Boolean
     ): Flow<Resource<SportActivity?>>? {
         return if (userManager.isUserLoggedInFlow().first()) {
-            sportActivityRepository.getSportActivity(id, userManager.getUserName(), fetchFromRemote)
+            sportActivityRepository.getSportActivity(
+                id,
+                userManager.getUserName(),
+                fetchFromRemote
+            )
         } else null
     }
 

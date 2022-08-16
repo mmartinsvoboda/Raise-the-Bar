@@ -23,7 +23,8 @@ fun TitleForCardSportApp(
     subtitle: String = "",
     navigationIcon: @Composable () -> Unit = {
         Icon(
-            imageVector = Icons.Default.ArrowForward, contentDescription = null
+            imageVector = Icons.Default.ArrowForward,
+            contentDescription = null
         )
     },
     navigationAction: (() -> Unit)? = null,
@@ -35,11 +36,13 @@ fun TitleForCardSportApp(
             .padding(
                 horizontal = SportTrackingAppTheme.paddings.smallPadding,
                 vertical = SportTrackingAppTheme.paddings.tinyPadding
-            ), horizontalArrangement = if (navigationAction != null && displayNavigationAction) {
+            ),
+        horizontalArrangement = if (navigationAction != null && displayNavigationAction) {
             Arrangement.SpaceBetween
         } else {
             Arrangement.Start
-        }, verticalAlignment = Alignment.CenterVertically
+        },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             Modifier.weight(1f)
@@ -64,7 +67,8 @@ fun TitleForCardSportApp(
 
         if (navigationAction != null && displayNavigationAction) {
             IconButton(
-                onClick = navigationAction, modifier = Modifier.requiredSize(24.dp)
+                onClick = navigationAction,
+                modifier = Modifier.requiredSize(24.dp)
             ) {
                 navigationIcon()
             }
@@ -79,7 +83,8 @@ fun TitleForCardSportApp(
     subtitle: AnnotatedString,
     navigationIcon: @Composable () -> Unit = {
         Icon(
-            imageVector = Icons.Default.ArrowForward, contentDescription = null
+            imageVector = Icons.Default.ArrowForward,
+            contentDescription = null
         )
     },
     navigationAction: (() -> Unit)? = null,
@@ -91,11 +96,13 @@ fun TitleForCardSportApp(
             .padding(
                 horizontal = SportTrackingAppTheme.paddings.smallPadding,
                 vertical = SportTrackingAppTheme.paddings.tinyPadding
-            ), horizontalArrangement = if (navigationAction != null && displayNavigationAction) {
+            ),
+        horizontalArrangement = if (navigationAction != null && displayNavigationAction) {
             Arrangement.SpaceBetween
         } else {
             Arrangement.Start
-        }, verticalAlignment = Alignment.CenterVertically
+        },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             Modifier.weight(1f)
@@ -120,7 +127,8 @@ fun TitleForCardSportApp(
 
         if (navigationAction != null && displayNavigationAction) {
             IconButton(
-                onClick = navigationAction, modifier = Modifier.requiredSize(24.dp)
+                onClick = navigationAction,
+                modifier = Modifier.requiredSize(24.dp)
             ) {
                 navigationIcon()
             }

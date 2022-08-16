@@ -10,9 +10,15 @@ import java.io.IOException
 
 object MapHelper {
 
-    fun getAddressObjectFlow(address: String, context: Context) = flow {
+    fun getAddressObjectFlow(
+        address: String,
+        context: Context
+    ) = flow {
         val list = try {
-            Geocoder(context).getFromLocationName(address, 1)
+            Geocoder(context).getFromLocationName(
+                address,
+                1
+            )
         } catch (e: IOException) {
             emptyList()
         }

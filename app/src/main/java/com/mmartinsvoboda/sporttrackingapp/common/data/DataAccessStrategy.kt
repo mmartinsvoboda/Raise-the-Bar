@@ -22,7 +22,10 @@ inline fun <DB, REMOTE, FINAL> performGetOperation(
                     apiResponse.data?.let {
                         val processedRemoteData = processRemoteData(it)
                         val localDataForSync = fetchFromLocal.invoke().first()
-                        syncRemoteData(localDataForSync, processedRemoteData)
+                        syncRemoteData(
+                            localDataForSync,
+                            processedRemoteData
+                        )
                     }
                     emitAll(
                         fetchFromLocal().map { dbData ->

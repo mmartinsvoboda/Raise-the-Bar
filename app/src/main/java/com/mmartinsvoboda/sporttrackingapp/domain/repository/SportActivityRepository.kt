@@ -18,8 +18,18 @@ interface SportActivityRepository {
     ): Flow<Resource<List<SportActivity>>>
 
     suspend fun deleteSportActivityFromLocal(sportActivity: SportActivity)
-    suspend fun addSportActivityToLocal(user: String, sportActivity: SportActivity)
+    suspend fun addSportActivityToLocal(
+        user: String,
+        sportActivity: SportActivity
+    )
 
-    suspend fun deleteSportActivityFromRemote(id: Int, user: String)
-    suspend fun addSportActivityToRemote(user: String, sportActivity: SportActivity): Boolean
+    suspend fun deleteSportActivityFromRemote(
+        id: Int,
+        user: String
+    )
+
+    suspend fun addSportActivityToRemote(
+        user: String,
+        sportActivity: SportActivity
+    ): Boolean
 }

@@ -9,7 +9,8 @@ import timber.log.Timber
 abstract class BaseDataSource {
 
     protected suspend fun <T> getResult(
-        name: String, call: suspend () -> Response<T>
+        name: String,
+        call: suspend () -> Response<T>
     ): Resource<T> {
         try {
             val response = call()
@@ -22,14 +23,16 @@ abstract class BaseDataSource {
 
             return when (response.code()) {
                 401 -> error(
-                    name, AuthenticatorException(
+                    name,
+                    AuthenticatorException(
                         "${response.code()} - ${response.message()} - ${
                             response.body().toGsonString()
                         }"
                     )
                 )
                 else -> error(
-                    name, IOException(
+                    name,
+                    IOException(
                         "${response.code()} - ${response.message()} - ${
                             response.body().toGsonString()
                         }"
@@ -37,14 +40,22 @@ abstract class BaseDataSource {
                 )
             }
         } catch (e: Exception) {
-            return error(name, e)
+            return error(
+                name,
+                e
+            )
         }
     }
 
     private fun <T> error(
-        name: String, throwable: Throwable, shouldLog: Boolean = true
+        name: String,
+        throwable: Throwable,
+        shouldLog: Boolean = true
     ): Resource<T> {
-        if (shouldLog) Timber.e(throwable, "Network call $name has failed")
+        if (shouldLog) Timber.e(
+            throwable,
+            "Network call $name has failed"
+        )
         return Resource.error(throwable)
     }
 

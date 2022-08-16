@@ -21,7 +21,8 @@ object SportActivityModule {
         db: SportActivityDatabase
     ): SportActivityRepository {
         return SportActivityRepositoryImpl(
-            api, db
+            api,
+            db
         )
     }
 

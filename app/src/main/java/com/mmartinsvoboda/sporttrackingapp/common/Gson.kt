@@ -16,7 +16,13 @@ fun <T> T.toGsonString(
 }
 
 inline fun <reified T> Gson.fromJson(json: String): T =
-    fromJson(json, object : TypeToken<T>() {}.type)
+    fromJson(
+        json,
+        object : TypeToken<T>() {}.type
+    )
 
 inline fun <reified T> genericType(): Type = object : TypeToken<T>() {}.type
-inline fun <reified T : Any> String.toObject(): T = Gson().fromJson(this, T::class.java)
+inline fun <reified T : Any> String.toObject(): T = Gson().fromJson(
+    this,
+    T::class.java
+)

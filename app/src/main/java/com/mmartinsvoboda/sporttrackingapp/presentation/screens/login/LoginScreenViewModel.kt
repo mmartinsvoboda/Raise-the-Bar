@@ -46,7 +46,10 @@ class LoginScreenViewModel @Inject constructor(
         }
 
         _state.value =
-            state.value.copy(isLoginInProgress = false, userError = validationResult.error)
+            state.value.copy(
+                isLoginInProgress = false,
+                userError = validationResult.error
+            )
     }
 
     private fun updateUser(user: String) {

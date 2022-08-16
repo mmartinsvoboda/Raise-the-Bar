@@ -30,7 +30,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun LoginScreen(
-    navigator: DestinationsNavigator, model: LoginScreenViewModel = hiltViewModel()
+    navigator: DestinationsNavigator,
+    model: LoginScreenViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
 
@@ -55,7 +56,8 @@ fun LoginScreen(
             ) {
                 IconButton(onClick = { expanded.value = true }) {
                     Icon(
-                        Icons.Default.MoreVert, contentDescription = null
+                        Icons.Default.MoreVert,
+                        contentDescription = null
                     )
                 }
 
@@ -76,8 +78,7 @@ fun LoginScreen(
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item { SpacerDefault() }
 
@@ -114,6 +115,7 @@ fun LoginScreen(
                             onValueChange = {
                                 model.onEvent(LoginEvent.UpdateUser(it))
                             },
+                            isError = !state.userError.isNullOrBlank(),
                             modifier = Modifier.fillMaxWidth(),
                             label = {
                                 Text(text = "Username")
@@ -123,13 +125,7 @@ fun LoginScreen(
                             enabled = !state.isLoginInProgress
                         )
 
-                        if (!state.userError.isNullOrBlank()) {
-                            SpacerTiny()
-                            
-                            Text(
-                                text = state.userError!!, color = SportTrackingAppTheme.colors.error
-                            )
-                        }
+                        DisplayErrorTextOnError(state.userError)
 
                         SpacerDefault()
 
