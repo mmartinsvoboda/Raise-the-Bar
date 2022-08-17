@@ -68,7 +68,7 @@ fun TitleForCardSportApp(
         if (navigationAction != null && displayNavigationAction) {
             IconButton(
                 onClick = navigationAction,
-                modifier = Modifier.requiredSize(24.dp)
+                modifier = Modifier.requiredHeight(24.dp)
             ) {
                 navigationIcon()
             }

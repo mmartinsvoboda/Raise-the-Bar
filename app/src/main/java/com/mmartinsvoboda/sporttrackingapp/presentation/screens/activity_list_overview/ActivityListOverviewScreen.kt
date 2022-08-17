@@ -22,10 +22,7 @@ import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.CircularProgressIndicatorWithDarkBackground
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
-import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.ActivitiesNotFoundColumn
-import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.SportActivityListItem
-import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.TopBarActionsActivityListOverviewScreen
-import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.WeeklyChallengeCard
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.*
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityDetailScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityNewScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
@@ -35,13 +32,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ActivityListOverviewScreen(
-    navigator: DestinationsNavigator,
-    model: ActivityListOverviewViewModel = hiltViewModel()
+    navigator: DestinationsNavigator, model: ActivityListOverviewViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
 
-    ScaffoldSportApp(
-        topBarTitle = if (state.user != null) "Hello, ${state.user}" else "Hello",
+    ScaffoldSportApp(topBarTitle = if (state.user != null) "Hello, ${state.user}" else "Hello",
         topBarDisplayNavigationIcon = false,
         navigator = navigator,
         topBarActions = {
@@ -53,15 +48,13 @@ fun ActivityListOverviewScreen(
                 elevation = FloatingActionButtonDefaults.elevation(0.dp)
             ) {
                 Icon(
-                    Icons.Outlined.Add,
-                    "Add"
+                    Icons.Outlined.Add, "Add"
                 )
             }
         }) {
-        SwipeRefresh(state = SwipeRefreshState(state.isLoading),
-            onRefresh = {
-                model.onEvent(ActivityListEvent.LoadActivityList(true))
-            }) {
+        SwipeRefresh(state = SwipeRefreshState(state.isLoading), onRefresh = {
+            model.onEvent(ActivityListEvent.LoadActivityList(true))
+        }) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(SportTrackingAppTheme.paddings.defaultPadding)
@@ -75,7 +68,11 @@ fun ActivityListOverviewScreen(
                 item {
                     CardSportAppWithTitle(
                         title = "Activities",
-                        modifier = Modifier.padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
+                        modifier = Modifier.padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding),
+                        navigationIcon = {
+                            ActivitiesFilterButton(state, model)
+                        },
+                        navigationAction = {}
                     ) {
                         Column {
                             if (state.activities.isEmpty()) {
@@ -84,8 +81,7 @@ fun ActivityListOverviewScreen(
                             } else {
                                 state.activities.forEachIndexed { index, sportActivity ->
                                     SportActivityListItem(
-                                        sportActivity = sportActivity,
-                                        modifier = Modifier
+                                        sportActivity = sportActivity, modifier = Modifier
                                     ) {
                                         navigator.navigate(
                                             ActivityDetailScreenDestination(

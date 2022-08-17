@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_list_filter.ActivityListFilter
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.ButtonText
 import com.mmartinsvoboda.sporttrackingapp.presentation.components.SpacerDefault
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.ActivityListEvent
@@ -31,42 +32,68 @@ fun ActivitiesNotFoundColumn(
     Column(
         modifier = Modifier.padding(SportTrackingAppTheme.paddings.defaultPadding)
     ) {
-        Text(text = "No sport activities have been found :(\nGet out there and work out!")
+        if (state.filter != ActivityListFilter.ALL) {
+            Text(text = "No activities found.\nWe could switch the filter to ALL, what do you think?")
 
-        SpacerDefault()
+            SpacerDefault()
 
-        Image(
-            painter = painterResource(id = state.noDataImage),
-            contentDescription = "Sport activity",
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(max = 150.dp)
-        )
+            Image(
+                painter = painterResource(id = state.noDataImage),
+                contentDescription = "Sport activity",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 150.dp)
+            )
 
-        SpacerDefault()
+            SpacerDefault()
 
-        Button(
-            onClick = {
-                navigator.navigate(ActivityNewScreenDestination)
-            },
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            ButtonText(text = "Add new activity")
-        }
+            Button(
+                onClick = {
+                    model.onEvent(ActivityListEvent.FilterActivities(ActivityListFilter.ALL))
+                },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                ButtonText(text = "Switch filter to \"All\"")
+            }
+        } else {
+            Text(text = "No sport activities have been found :(\nGet out there and work out!")
 
-        OutlinedButton(
-            onClick = {
-                model.onEvent(
-                    ActivityListEvent.LoadActivityList(
-                        true
+            SpacerDefault()
+
+            Image(
+                painter = painterResource(id = state.noDataImage),
+                contentDescription = "Sport activity",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 150.dp)
+            )
+
+            SpacerDefault()
+
+            Button(
+                onClick = {
+                    navigator.navigate(ActivityNewScreenDestination)
+                },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                ButtonText(text = "Add new activity")
+            }
+
+            OutlinedButton(
+                onClick = {
+                    model.onEvent(
+                        ActivityListEvent.LoadActivityList(
+                            true
+                        )
                     )
-                )
-            },
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            ButtonText(text = "Try again")
+                },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                ButtonText(text = "Try again")
+            }
         }
     }
 }

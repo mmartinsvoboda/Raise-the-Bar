@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mmartinsvoboda.sporttrackingapp.common.data.Resource
 import com.mmartinsvoboda.sporttrackingapp.domain.manager.UserManager
+import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_list_filter.ActivityListFilter
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_remove.ActivityRemoveUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_off.ActivitySyncOffUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_on.ActivitySyncOnUseCase
@@ -72,6 +73,18 @@ class ActivityListOverviewViewModel @Inject constructor(
                     if (userLogOutUseCase()) event.onSuccessfulLogOut()
                 }
             }
+            is ActivityListEvent.FilterActivities -> {
+                viewModelScope.launch {
+                    _state.value = state.value.copy(filter = event.filter)
+
+                    getActivitiesList(
+                        fetchFromRemote = listOf(
+                            ActivityListFilter.ALL,
+                            ActivityListFilter.SYNCED
+                        ).contains(event.filter)
+                    )
+                }
+            }
         }
     }
 
@@ -81,7 +94,13 @@ class ActivityListOverviewViewModel @Inject constructor(
                 Resource.Status.SUCCESS -> {
                     _state.value = state.value.copy(
                         isLoading = false,
-                        activities = result.data ?: emptyList()
+                        activities = result.data?.filter {
+                            when (state.value.filter) {
+                                ActivityListFilter.ALL -> true
+                                ActivityListFilter.SYNCED -> it.isBackedUp
+                                ActivityListFilter.LOCAL -> !it.isBackedUp
+                            }
+                        } ?: emptyList()
                     )
                 }
                 Resource.Status.ERROR -> {
