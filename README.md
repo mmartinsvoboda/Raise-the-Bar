@@ -1,4 +1,4 @@
-# sport_app_aws
+# Raise-the-Bar
 
 Code sample application (platform independent)
 
