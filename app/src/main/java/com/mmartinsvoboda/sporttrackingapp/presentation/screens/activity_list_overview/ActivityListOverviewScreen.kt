@@ -1,32 +1,33 @@
 package com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FloatingActionButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.mmartinsvoboda.sporttrackingapp.presentation.components.*
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.CardSportAppWithTitle
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.CircularProgressIndicatorWithDarkBackground
+import com.mmartinsvoboda.sporttrackingapp.presentation.components.ScaffoldSportApp
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.ActivitiesNotFoundColumn
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.SportActivityListItem
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.TopBarActionsActivityListOverviewScreen
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_list_overview.components.WeeklyChallengeCard
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityDetailScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.ActivityNewScreenDestination
-import com.mmartinsvoboda.sporttrackingapp.presentation.screens.destinations.LoginScreenDestination
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -44,42 +45,7 @@ fun ActivityListOverviewScreen(
         topBarDisplayNavigationIcon = false,
         navigator = navigator,
         topBarActions = {
-            val expanded = rememberSaveable { mutableStateOf(false) }
-
-            Box(
-                Modifier.wrapContentSize(Alignment.TopEnd)
-            ) {
-                IconButton(onClick = { expanded.value = true }) {
-                    Icon(
-                        Icons.Default.MoreVert,
-                        contentDescription = null
-                    )
-                }
-
-                DropdownMenu(
-                    expanded = expanded.value,
-                    onDismissRequest = { expanded.value = false },
-                    modifier = Modifier.clip(RoundedCornerShape(12.dp))
-                ) {
-                    DropdownMenuItem(onClick = {
-                        expanded.value = false
-                    }) {
-                        Text("Settings")
-                    }
-
-                    Divider()
-
-                    DropdownMenuItem(onClick = {
-                        expanded.value = false
-                        model.onEvent(ActivityListEvent.UserLogOut {
-                            navigator.popBackStack()
-                            navigator.navigate(LoginScreenDestination)
-                        })
-                    }) {
-                        Text("Log out")
-                    }
-                }
-            }
+            TopBarActionsActivityListOverviewScreen(model, navigator)
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -114,47 +80,7 @@ fun ActivityListOverviewScreen(
                         Column {
                             if (state.activities.isEmpty()) {
                                 // no data message
-                                Column(
-                                    modifier = Modifier.padding(SportTrackingAppTheme.paddings.defaultPadding)
-                                ) {
-                                    Text(text = "No sport activities have been found :(\nGet out there and work out!")
-
-                                    SpacerDefault()
-
-                                    Image(
-                                        painter = painterResource(id = state.noDataImage),
-                                        contentDescription = "Sport activity",
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .heightIn(max = 150.dp)
-                                    )
-
-                                    SpacerDefault()
-
-                                    Button(
-                                        onClick = {
-                                            navigator.navigate(ActivityNewScreenDestination)
-                                        },
-                                        shape = RoundedCornerShape(12.dp),
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        ButtonText(text = "Add new activity")
-                                    }
-
-                                    OutlinedButton(
-                                        onClick = {
-                                            model.onEvent(
-                                                ActivityListEvent.LoadActivityList(
-                                                    true
-                                                )
-                                            )
-                                        },
-                                        shape = RoundedCornerShape(12.dp),
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        ButtonText(text = "Try again")
-                                    }
-                                }
+                                ActivitiesNotFoundColumn(state, model, navigator)
                             } else {
                                 state.activities.forEachIndexed { index, sportActivity ->
                                     SportActivityListItem(

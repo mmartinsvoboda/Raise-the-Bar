@@ -11,6 +11,9 @@ class PerformanceValidation @Inject constructor() {
             return ValidationResult(isSuccessful = true)
         }
 
-        return ValidationResult(isSuccessful = false, error = "Performance must be a positive number.")
+        return ValidationResult(
+            isSuccessful = false,
+            error = "Performance must be a positive number."
+        )
     }
 }
