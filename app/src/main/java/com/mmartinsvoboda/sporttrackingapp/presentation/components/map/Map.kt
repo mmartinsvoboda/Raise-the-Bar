@@ -2,6 +2,7 @@ package com.mmartinsvoboda.sporttrackingapp.presentation.components.map
 
 import android.location.Address
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,7 +29,7 @@ fun Map(
     val cameraPositionState = rememberCameraPositionState()
 
     MapViewContainer(
-        address = addressState.value,
+        address = addressState,
         title = title,
         cameraPositionState = cameraPositionState,
         onProblem = onProblem,
@@ -38,18 +39,18 @@ fun Map(
 
 @Composable
 private fun MapViewContainer(
-    address: Address?,
+    address: State<Address?>,
     title: String,
     cameraPositionState: CameraPositionState,
     modifier: Modifier = Modifier,
     onProblem: @Composable () -> Unit
 ) {
-    if (address != null) {
+    if (address.value != null) {
         cameraPositionState.position =
             CameraPosition.fromLatLngZoom(
                 LatLng(
-                    address.latitude,
-                    address.longitude
+                    address.value!!.latitude,
+                    address.value!!.longitude
                 ),
                 13f
             )
@@ -61,8 +62,8 @@ private fun MapViewContainer(
             uiSettings = getUiSettings()
         ) {
             val destination = LatLng(
-                address.latitude,
-                address.longitude
+                address.value!!.latitude,
+                address.value!!.longitude
             )
             val markerState = rememberMarkerState(
                 key = title,

@@ -12,11 +12,12 @@ data class ActivityNewState(
     val descriptionError: String? = null,
     val location: String = "",
     val locationError: String? = null,
-    val startDateTime: LocalDateTime = LocalDateTime.now(),
+    val startDateTime: LocalDateTime? = null,
     val startDateTimeError: String? = null,
-    val endDateTime: LocalDateTime = LocalDateTime.now(),
+    val endDateTime: LocalDateTime? = null,
     val endDateTimeError: String? = null,
     val enjoyment: Int = 5,
     val enjoymentError: String? = null,
+    val syncToServer: Boolean = true,
     val isActionInProgress: Boolean = false
 )

@@ -24,6 +24,7 @@ fun <T> DropdownMenuSportApp(
     itemLabel: (item: T) -> String,
     selectedItem: T?,
     searchBoxLabel: String,
+    isError: Boolean,
     modifier: Modifier = Modifier,
     onItemSelected: (item: T) -> Unit
 ) {
@@ -42,7 +43,8 @@ fun <T> DropdownMenuSportApp(
 
         // Create an Outlined Text Field
         // with icon and not expanded
-        OutlinedTextField(value = if (selectedItem != null) itemLabel(selectedItem) else "",
+        OutlinedTextField(
+            value = if (selectedItem != null) itemLabel(selectedItem) else "",
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,10 +56,7 @@ fun <T> DropdownMenuSportApp(
             label = { Text(searchBoxLabel) },
             shape = RoundedCornerShape(12.dp),
             trailingIcon = {
-                Icon(
-                    icon,
-                    "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
+                Icon(icon, "contentDescription", Modifier.clickable { expanded = !expanded })
             },
             readOnly = true,
             singleLine = true,
@@ -70,7 +69,9 @@ fun <T> DropdownMenuSportApp(
                         }
                     }
                 }
-            })
+            },
+            isError = isError
+        )
 
         // Create a drop-down menu with list of cities,
         // when clicked, set the Text Field text as the city selected
@@ -85,8 +86,7 @@ fun <T> DropdownMenuSportApp(
                         onClick = {
                             onItemSelected(item)
                             expanded = false
-                        },
-                        enabled = item != selectedItem
+                        }, enabled = item != selectedItem
                     ) {
                         Text(text = itemLabel(item))
                     }

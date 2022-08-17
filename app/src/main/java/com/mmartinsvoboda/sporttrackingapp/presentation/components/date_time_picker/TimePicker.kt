@@ -20,9 +20,6 @@ fun getTimePicker(
     val hour = calendar[Calendar.HOUR_OF_DAY]
     val minute = calendar[Calendar.MINUTE]
 
-    // Value for storing time as a string
-    val mTime = remember { mutableStateOf("") }
-
     // Creating a TimePicker dialod
     return TimePickerDialog(
         context,

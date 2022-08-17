@@ -8,7 +8,7 @@ import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_remove.Activ
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_off.ActivitySyncOffUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_on.ActivitySyncOnUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.get_activities_list.GetActivitiesListUseCase
-import com.mmartinsvoboda.sporttrackingapp.domain.use_case.user_log_out.UserLogOutUseCase
+import com.mmartinsvoboda.sporttrackingapp.domain.use_case.user.user_log_out.UserLogOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

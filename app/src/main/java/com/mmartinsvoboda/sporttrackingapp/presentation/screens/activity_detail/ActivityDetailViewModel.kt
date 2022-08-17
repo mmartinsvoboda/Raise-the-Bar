@@ -8,11 +8,10 @@ import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_remove.Activ
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_off.ActivitySyncOffUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.activity_sync_on.ActivitySyncOnUseCase
 import com.mmartinsvoboda.sporttrackingapp.domain.use_case.get_activity.GetActivityUseCase
+import com.mmartinsvoboda.sporttrackingapp.presentation.screens.activity_new.AddActivityEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,6 +26,9 @@ class ActivityDetailViewModel @Inject constructor(
 
     private var _state = MutableStateFlow(ActivityState())
     val state: StateFlow<ActivityState> = _state
+
+    private val activityEventChannel = Channel<ActivityDetailEvent>()
+    val activityEventChannelEvents = activityEventChannel.receiveAsFlow()
 
     init {
         onEvent(ActivityEvent.LoadActivity(false))
@@ -43,7 +45,7 @@ class ActivityDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     _state.value = state.value.copy(isActionInProgress = true)
                     activityRemoveUseCase(event.sportActivity).also {
-                        if (it) event.onSuccess()
+                        if (it) activityEventChannel.send(ActivityDetailEvent.Deleted)
                     }
                     _state.value = state.value.copy(isActionInProgress = false)
                 }
@@ -52,6 +54,7 @@ class ActivityDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     _state.value = state.value.copy(isActionInProgress = true)
                     activitySyncOffUseCase(event.sportActivity)
+                    getActivity(true)
                     _state.value = state.value.copy(isActionInProgress = false)
                 }
             }
@@ -59,8 +62,8 @@ class ActivityDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     _state.value = state.value.copy(isActionInProgress = true)
                     activitySyncOnUseCase(event.sportActivity)
+                    getActivity(true)
                     _state.value = state.value.copy(isActionInProgress = false)
-
                 }
             }
         }
@@ -93,4 +96,8 @@ class ActivityDetailViewModel @Inject constructor(
             }?.launchIn(viewModelScope)
         }
     }
+}
+
+sealed class ActivityDetailEvent {
+    object Deleted : ActivityDetailEvent()
 }

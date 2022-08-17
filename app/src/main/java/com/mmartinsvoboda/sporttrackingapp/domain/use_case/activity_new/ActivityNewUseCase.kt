@@ -14,20 +14,19 @@ class ActivityNewUseCase @Inject constructor(
 
     suspend operator fun invoke(
         sportActivity: SportActivity
-    ): Boolean {
+    ): SportActivity? {
         return if (userManager.isUserLoggedInFlow().first()) {
             try {
                 sportActivityRepository.addSportActivityToLocal(
                     userManager.getUserName(),
                     sportActivity
                 )
-                true
             } catch (e: Exception) {
                 Timber.e(e)
-                false
+                null
             }
         } else
-            false
+            null
     }
 
 }

@@ -22,8 +22,9 @@ import java.time.format.FormatStyle
 
 @Composable
 fun DateTimePicker(
-    currentLocalDateTime: LocalDateTime,
+    currentLocalDateTime: LocalDateTime?,
     label: String,
+    isError: Boolean,
     modifier: Modifier = Modifier,
     onChanged: (localDateTime: LocalDateTime) -> Unit
 ) {
@@ -34,32 +35,29 @@ fun DateTimePicker(
 
     val timePicker = getTimePicker {
         localDateTime.value =
-            (localDateTime.value ?: LocalDateTime.now()).withHour(it.hour)
-                .withMinute(it.minute)
+            (localDateTime.value ?: LocalDateTime.now()).withHour(it.hour).withMinute(it.minute)
 
         onChanged(localDateTime.value ?: LocalDateTime.now())
     }
 
     val datePicker = getDatePicker {
         localDateTime.value =
-            (localDateTime.value ?: LocalDateTime.now()).withYear(it.year)
-                .withMonth(it.monthValue).withDayOfMonth(it.dayOfMonth)
+            (localDateTime.value ?: LocalDateTime.now()).withYear(it.year).withMonth(it.monthValue)
+                .withDayOfMonth(it.dayOfMonth)
 
         timePicker.show()
     }
 
-    OutlinedTextField(value = currentLocalDateTime.format(
-        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)
-            .withZone(ZoneId.systemDefault())
-    ),
+    OutlinedTextField(value = currentLocalDateTime?.format(
+        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
+    ) ?: "",
         onValueChange = {},
         modifier = modifier,
         label = { Text(label) },
         shape = RoundedCornerShape(12.dp),
         trailingIcon = {
             Icon(
-                Icons.Outlined.CalendarMonth,
-                "calendar"
+                Icons.Outlined.CalendarMonth, "calendar"
             )
         },
         readOnly = true,
@@ -73,5 +71,7 @@ fun DateTimePicker(
                     }
                 }
             }
-        })
+        },
+        isError = isError
+    )
 }

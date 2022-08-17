@@ -21,7 +21,7 @@ interface SportActivityRepository {
     suspend fun addSportActivityToLocal(
         user: String,
         sportActivity: SportActivity
-    )
+    ): SportActivity?
 
     suspend fun deleteSportActivityFromRemote(
         id: Int,

@@ -9,7 +9,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material.icons.outlined.SpeakerNotes
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,26 +27,32 @@ import com.mmartinsvoboda.sporttrackingapp.presentation.components.map.Map
 import com.mmartinsvoboda.sporttrackingapp.presentation.ui.SportTrackingAppTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Destination
 @Composable
 fun ActivityDetailScreen(
-    id: Int,
-    navigator: DestinationsNavigator,
-    model: ActivityDetailViewModel = hiltViewModel()
+    id: Int, navigator: DestinationsNavigator, model: ActivityDetailViewModel = hiltViewModel()
 ) {
     val state by model.state.collectAsState()
 
+    LaunchedEffect(true) {
+        model.activityEventChannelEvents.collect { event ->
+            when (event) {
+                ActivityDetailEvent.Deleted -> {
+                    navigator.navigateUp()
+                }
+            }
+        }
+    }
+
     ScaffoldSportApp(
-        topBarTitle = "Activity",
-        topBarDisplayNavigationIcon = true,
-        navigator = navigator
+        topBarTitle = "Activity", topBarDisplayNavigationIcon = true, navigator = navigator
     ) {
-        SwipeRefresh(
-            state = SwipeRefreshState(state.isLoading),
-            onRefresh = {
-                model.onEvent(ActivityEvent.LoadActivity(true))
-            }) {
+        SwipeRefresh(state = SwipeRefreshState(state.isLoading), onRefresh = {
+            model.onEvent(ActivityEvent.LoadActivity(true))
+        }) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(SportTrackingAppTheme.paddings.defaultPadding)
@@ -58,14 +67,26 @@ fun ActivityDetailScreen(
                                 .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
                         ) {
                             Text(
-                                text = sportActivity.name,
-                                style = SportTrackingAppTheme.typography.h4,
+                                text = sportActivity.sport._name,
+                                style = SportTrackingAppTheme.typography.h3,
+                                maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.fillMaxWidth()
                             )
 
-                            SpacerSmall()
+                            SpacerTiny()
+
+                            Text(
+                                text = "${sportActivity.performance} ${sportActivity.sport.sportUnit.unit}",
+                                style = SportTrackingAppTheme.typography.h5,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+
+                            SpacerTiny()
 
                             Text(
                                 text = if (sportActivity.isBackedUp) "Synced" else "Not synced",
@@ -88,15 +109,39 @@ fun ActivityDetailScreen(
                                     .padding(SportTrackingAppTheme.paddings.defaultPadding)
                             ) {
                                 IconAndTextRow(
-                                    text = "${sportActivity.startDateTime} - ${sportActivity.endDateTime}",
-                                    icon = Icons.Outlined.Schedule
+                                    text = "${
+                                        sportActivity.startDateTime.format(
+                                            DateTimeFormatter.ofLocalizedDateTime(
+                                                FormatStyle.MEDIUM
+                                            )
+                                        )
+                                    }\n${
+                                        sportActivity.endDateTime.format(
+                                            DateTimeFormatter.ofLocalizedDateTime(
+                                                FormatStyle.MEDIUM
+                                            )
+                                        )
+                                    }", icon = Icons.Outlined.Schedule
                                 )
 
-                                SpacerTiny()
+                                SpacerSmall()
 
                                 IconAndTextRow(
-                                    text = sportActivity.place,
-                                    icon = Icons.Outlined.Place
+                                    text = sportActivity.place, icon = Icons.Outlined.Place
+                                )
+
+                                SpacerSmall()
+
+                                IconAndTextRow(
+                                    text = sportActivity.description,
+                                    icon = Icons.Outlined.SpeakerNotes
+                                )
+
+                                SpacerSmall()
+
+                                IconAndTextRow(
+                                    text = sportActivity.enjoyment.toString() + "/10",
+                                    icon = Icons.Outlined.Star
                                 )
                             }
                         }
@@ -107,8 +152,7 @@ fun ActivityDetailScreen(
                     state.activity?.let { sportActivity ->
                         CardSportAppWithTitle(
                             title = "Location",
-                            modifier = Modifier
-                                .padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
+                            modifier = Modifier.padding(horizontal = SportTrackingAppTheme.paddings.defaultPadding)
                         ) {
                             Map(
                                 address = sportActivity.place,
@@ -153,11 +197,11 @@ fun ActivityDetailScreen(
 
                             OutlinedButton(
                                 onClick = {
-                                    model.onEvent(ActivityEvent.ActivityDelete(
-                                        sportActivity
-                                    ) {
-                                        navigator.navigateUp()
-                                    })
+                                    model.onEvent(
+                                        ActivityEvent.ActivityDelete(
+                                            sportActivity
+                                        )
+                                    )
                                 },
                                 modifier = Modifier.fillMaxWidth(),
                                 shape = RoundedCornerShape(12.dp),
@@ -173,7 +217,6 @@ fun ActivityDetailScreen(
             }
         }
     }
-
 
     CircularProgressIndicatorWithDarkBackground(state.isActionInProgress)
 }

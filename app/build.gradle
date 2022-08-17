@@ -25,12 +25,12 @@ var compose_version = "1.2.1"
 
 android {
     namespace 'com.mmartinsvoboda.sporttrackingapp'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.mmartinsvoboda.sporttrackingapp"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -88,7 +88,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.0'
 
     // splashscreen
     implementation 'androidx.core:core-splashscreen:1.0.0'
@@ -149,11 +149,11 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     // swipe to refresh
-    implementation 'com.google.accompanist:accompanist-swiperefresh:0.25.0'
+    implementation 'com.google.accompanist:accompanist-swiperefresh:0.25.1'
 
     // pager layouts
-    implementation 'com.google.accompanist:accompanist-pager:0.25.0'
-    implementation 'com.google.accompanist:accompanist-pager-indicators:0.25.0'
+    implementation 'com.google.accompanist:accompanist-pager:0.25.1'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.25.1'
 
     // datastore
     implementation 'androidx.datastore:datastore:1.0.0'

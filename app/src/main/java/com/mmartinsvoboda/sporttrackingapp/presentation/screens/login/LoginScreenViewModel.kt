@@ -2,8 +2,8 @@ package com.mmartinsvoboda.sporttrackingapp.presentation.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mmartinsvoboda.sporttrackingapp.domain.use_case.user_log_in.UserLogInUseCase
-import com.mmartinsvoboda.sporttrackingapp.domain.use_case.user_login_validation.UserLoginValidationUseCase
+import com.mmartinsvoboda.sporttrackingapp.domain.use_case.user.user_log_in.UserLogInUseCase
+import com.mmartinsvoboda.sporttrackingapp.domain.use_case.user.user_login_validation.UserLoginValidationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay

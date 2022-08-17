@@ -12,4 +12,5 @@ sealed class ActivityNewEvent {
     data class SetStartDateTime(val localDateTime: LocalDateTime) : ActivityNewEvent()
     data class SetEndDateTime(val localDateTime: LocalDateTime) : ActivityNewEvent()
     data class SetEnjoyment(val enjoyment: Int) : ActivityNewEvent()
+    data class SetSyncToServer(val syncToServer: Boolean) : ActivityNewEvent()
 }

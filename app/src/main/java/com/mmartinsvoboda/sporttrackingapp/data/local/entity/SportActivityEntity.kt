@@ -9,11 +9,12 @@ data class SportActivityEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val isBackedUp: Boolean,
-    val name: String,
+    val sport: String,
     val description: String,
     val enjoyment: Int,
     val place: String,
     val remoteId: String?,
     val startDateTime: Long,
-    val user: String
+    val user: String,
+    val performance: String
 )
